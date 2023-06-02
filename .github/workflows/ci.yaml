@@ -62,7 +62,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run typecheck
   build:
-    name: Check types
+    name: Build
     runs-on: ubuntu-latest
     needs: packages
     steps:
