@@ -28,8 +28,12 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
+    "@macaron-css/core": "^1.2.0",
+    "@macaron-css/solid": "^1.4.1",
+    "@macaron-css/vite": "^1.4.2",
     "@solidjs/meta": "^0.28.5",
     "@solidjs/router": "^0.8.2",
+    "normalize.css": "^8.0.1",
     "solid-js": "^1.7.6",
     "solid-start": "^0.2.26",
     "solid-start-vercel": "^0.2.26",

@@ -12,6 +12,8 @@ import {
   Title,
 } from "solid-start";
 import Header from "./components/Header";
+import "normalize.css";
+import StyleProvider from "./theme/StyleProvider";
 
 export default function Root() {
   return (
@@ -22,14 +24,16 @@ export default function Root() {
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Body>
-        <Suspense>
-          <ErrorBoundary>
-            <Header />
-            <Routes>
-              <FileRoutes />
-            </Routes>
-          </ErrorBoundary>
-        </Suspense>
+        <StyleProvider>
+          <Suspense>
+            <ErrorBoundary>
+              <Header />
+              <Routes>
+                <FileRoutes />
+              </Routes>
+            </ErrorBoundary>
+          </Suspense>
+        </StyleProvider>
         <Scripts />
       </Body>
     </Html>
