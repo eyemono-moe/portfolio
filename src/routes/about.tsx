@@ -1,4 +1,5 @@
 import { Title } from "solid-start";
+
 import { SITE_TITLE } from "~/consts";
 
 export default function About() {

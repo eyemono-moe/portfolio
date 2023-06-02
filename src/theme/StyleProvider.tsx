@@ -1,7 +1,8 @@
 import { ParentComponent } from "solid-js";
-import { isMobile } from "./viewportSize";
-import { desktopFontSize, mobileFontSize } from "./typography";
+
 import { spaceClass } from "./space";
+import { desktopFontSize, mobileFontSize } from "./typography";
+import { isMobile } from "./viewportSize";
 
 const StyleProvider: ParentComponent = (props) => {
   return (

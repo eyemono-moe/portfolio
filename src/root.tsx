@@ -11,6 +11,7 @@ import {
   Scripts,
   Title,
 } from "solid-start";
+
 import Header from "./components/Header";
 import "normalize.css";
 import StyleProvider from "./theme/StyleProvider";

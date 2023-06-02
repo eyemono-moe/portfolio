@@ -11,7 +11,9 @@
   "type": "module",
   "devDependencies": {
     "@types/debug": "^4.1.8",
+    "@types/eslint": "^8.40.0",
     "@types/node": "^18.16.16",
+    "@types/prettier": "^2.7.3",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
     "esbuild": "^0.14.54",
@@ -21,6 +23,7 @@
     "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-solid": "^0.12.1",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "postcss": "^8.4.24",
     "prettier": "^2.8.8",
     "solid-start-node": "^0.2.26",
