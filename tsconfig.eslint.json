@@ -4,6 +4,6 @@
     "noEmit": true,
     "allowJs": true
   },
-  "extends": "./tsconfig.base.json",
+  "extends": "./tsconfig.json",
   "include": [".eslintrc.cjs", "vite.config.ts"]
 }
