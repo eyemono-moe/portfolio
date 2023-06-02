@@ -5,7 +5,8 @@
     "build": "solid-start build",
     "start": "solid-start start",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit"
   },
   "type": "module",
   "devDependencies": {
