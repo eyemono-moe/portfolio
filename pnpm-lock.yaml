@@ -23,6 +23,9 @@ dependencies:
   normalize.css:
     specifier: ^8.0.1
     version: 8.0.1
+  solid-icons:
+    specifier: ^1.0.7
+    version: 1.0.7(solid-js@1.7.6)
   solid-js:
     specifier: ^1.7.6
     version: 1.7.6
@@ -4782,6 +4785,15 @@ packages:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
     dev: true
+
+  /solid-icons@1.0.7(solid-js@1.7.6):
+    resolution: {integrity: sha512-r9xW0VJUJemdY+AUEz9vV+QQ13Rah51Gn1w8K89WaGnOtTTmFQ4QaKAJi7J9Q+RQpxPS6cW1/fMnSaLiYJi8AA==}
+    engines: {node: '>= 16'}
+    peerDependencies:
+      solid-js: '*'
+    dependencies:
+      solid-js: 1.7.6
+    dev: false
 
   /solid-js@1.7.6:
     resolution: {integrity: sha512-DXVOTjUh/bIAhE0fIqu3ezGLyQaez7v8EOw3uPLIi87DmLjg+hsuCAgKyNIZ+o4jUetOk3ZORccvJmE1yZUk8g==}
