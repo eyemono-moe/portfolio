@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="260" height="260"><svg width="260" height="260" viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_51_59)">
+<circle cx="130" cy="130" r="130" fill="#C8FF33"></circle>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16.25 127.969C16.25 102.167 37.1667 81.25 62.9688 81.25H97.5V20.3125C97.5 13.5815 102.957 8.125 109.688 8.125C116.418 8.125 121.875 13.5815 121.875 20.3125V174.688H62.9688C37.1667 174.688 16.25 153.771 16.25 127.969ZM62.9688 105.625C50.6286 105.625 40.625 115.629 40.625 127.969C40.625 140.309 50.6286 150.312 62.9688 150.312H97.5L97.5 105.625H62.9688Z" fill="#191E1E"></path>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M243.75 127.969C243.75 153.771 222.833 174.688 197.031 174.688H162.5V239.688C162.5 246.418 157.043 251.875 150.312 251.875C143.582 251.875 138.125 246.418 138.125 239.688L138.125 81.25H197.031C222.833 81.25 243.75 102.167 243.75 127.969ZM197.031 150.312C209.371 150.312 219.375 140.309 219.375 127.969C219.375 115.629 209.371 105.625 197.031 105.625H162.5V150.312H197.031Z" fill="#191E1E"></path>
+</g>
+<defs>
+<clipPath id="SvgjsClipPath1000">
+<rect width="260" height="260" fill="white"></rect>
+</clipPath>
+</defs>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+</style></svg>

@@ -1,5 +1,7 @@
 import { createTheme, createThemeContract } from "@macaron-css/core";
 
+import { device } from "~/theme/viewportSize";
+
 export const fontSize = createThemeContract({
   body: {
     fontSize: null,
@@ -10,6 +12,10 @@ export const fontSize = createThemeContract({
     lineHeight: null,
   },
   h2: {
+    fontSize: null,
+    lineHeight: null,
+  },
+  h3: {
     fontSize: null,
     lineHeight: null,
   },
@@ -28,6 +34,10 @@ export const desktopFontSize = createTheme(fontSize, {
     fontSize: "2rem",
     lineHeight: "1.5",
   },
+  h3: {
+    fontSize: "1.625rem",
+    lineHeight: "1.5",
+  },
 });
 
 export const mobileFontSize = createTheme(fontSize, {
@@ -43,4 +53,11 @@ export const mobileFontSize = createTheme(fontSize, {
     fontSize: "1.5rem",
     lineHeight: "1.5",
   },
+  h3: {
+    fontSize: "1.375rem",
+    lineHeight: "1.5",
+  },
 });
+
+export const fontSizeClass = () =>
+  device() === "mobile" ? mobileFontSize : desktopFontSize;

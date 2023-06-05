@@ -1,24 +1,38 @@
 import { createRoot, createSignal, onCleanup, onMount } from "solid-js";
 
-const VIEWPORT_SIZE_QUERY = "screen and (max-width: 640px)";
+const MOBILE_SIZE_QUERY = "screen and (max-width: 520px)";
+const TABLET_SIZE_QUERY = "screen and (max-width: 960px)";
 
 const viewportSize = () => {
-  const [isMobile, setIsMobile] = createSignal(false);
+  const [device, setDevice] = createSignal<"mobile" | "tablet" | "desktop">(
+    "desktop"
+  );
 
-  const onChange = () =>
-    setIsMobile(window.matchMedia(VIEWPORT_SIZE_QUERY).matches);
+  const onChange = () => {
+    if (window.matchMedia(MOBILE_SIZE_QUERY).matches) {
+      setDevice("mobile");
+    } else if (window.matchMedia(TABLET_SIZE_QUERY).matches) {
+      setDevice("tablet");
+    } else {
+      setDevice("desktop");
+    }
+  };
 
   onMount(() => {
-    window.matchMedia(VIEWPORT_SIZE_QUERY).addEventListener("change", onChange);
+    window.matchMedia(MOBILE_SIZE_QUERY).addEventListener("change", onChange);
+    window.matchMedia(TABLET_SIZE_QUERY).addEventListener("change", onChange);
   });
 
   onCleanup(() => {
     window
-      .matchMedia(VIEWPORT_SIZE_QUERY)
+      .matchMedia(MOBILE_SIZE_QUERY)
+      .removeEventListener("change", onChange);
+    window
+      .matchMedia(TABLET_SIZE_QUERY)
       .removeEventListener("change", onChange);
   });
 
-  return isMobile;
+  return device;
 };
 
-export const isMobile = createRoot(viewportSize);
+export const device = createRoot(viewportSize);

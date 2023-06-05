@@ -1,16 +1,25 @@
+import { globalStyle } from "@macaron-css/core";
 import { ParentComponent } from "solid-js";
 
-import { spaceClass } from "./space";
-import { desktopFontSize, mobileFontSize } from "./typography";
-import { isMobile } from "./viewportSize";
+import { layoutSpaceClass } from "~/theme/space";
+import { fontSizeClass } from "~/theme/typography";
+
+globalStyle("html, body", {
+  margin: "0",
+  padding: "0",
+  fontFamily: `'Noto Sans JP', sans-serif`,
+});
+
+globalStyle("*, *:before, *:after", {
+  boxSizing: "border-box",
+});
 
 const StyleProvider: ParentComponent = (props) => {
   return (
     <div
       classList={{
-        [mobileFontSize]: isMobile(),
-        [desktopFontSize]: !isMobile(),
-        [spaceClass]: true,
+        [fontSizeClass()]: true,
+        [layoutSpaceClass()]: true,
       }}
     >
       {props.children}

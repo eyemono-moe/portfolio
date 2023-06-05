@@ -1,32 +1,75 @@
 import { style } from "@macaron-css/core";
 import { styled } from "@macaron-css/solid";
-import { TbExternalLink } from "solid-icons/tb";
 import { Component } from "solid-js";
 import { A, useLocation } from "solid-start";
 
-import { space } from "~/theme/space";
+import { semanticColors } from "~/theme/color";
+import { layoutSpace, space } from "~/theme/space";
+import { fontSize } from "~/theme/typography";
+import { device } from "~/theme/viewportSize";
 
 const HeaderContainer = styled("header", {
   base: {
     position: "relative",
-    top: "0",
-    left: "0",
     width: "100%",
+    maxWidth: "100%",
+    padding: `0 ${layoutSpace.edgePadding}`,
+
     transitionProperty: "top",
     transitionDuration: "0.2s",
-    transitionTimingFunction: "ease",
+    transitionTimingFunction: "ease-in-out",
+  },
+});
+
+const HeaderBackground = styled("div", {
+  base: {
+    position: "absolute",
+    left: "0",
+    width: "100%",
+    height: "150px",
+    transformOrigin: "top left",
+    transform: "skewX(0deg) skewY(-5deg)",
+    zIndex: "-2",
+    backgroundColor: semanticColors.accent.secondary,
+
+    transitionProperty: "width, height, transform",
+    transitionDuration: "0.2s",
+    transitionTimingFunction: "ease-in-out",
   },
   variants: {
-    hidden: {
+    onTop: {
       true: {
-        top: "-100px",
+        width: "50%",
+        height: "100vh",
+        transform: "skewX(-10deg) skewY(0deg)",
+      },
+    },
+    isTopMobile: {
+      true: {
+        width: "100%",
+        height: "300px",
+        transform: "skewX(0deg) skewY(-5deg)",
       },
     },
   },
 });
 
 const HeaderNav = styled("nav", {
-  base: { padding: `${space.x2} ${space.x3}` },
+  base: {
+    position: "relative",
+    top: "0",
+    left: "0",
+    transitionProperty: "top",
+    transitionDuration: "0.2s",
+    transitionTimingFunction: "ease-in-out",
+  },
+  variants: {
+    hidden: {
+      true: {
+        top: "-200px",
+      },
+    },
+  },
 });
 
 const NavUl = styled("ul", {
@@ -40,33 +83,69 @@ const NavUl = styled("ul", {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    gap: space.x2,
+    gap: space.x3,
+  },
+  variants: {
+    isMobile: {
+      true: {
+        justifyContent: "space-between",
+      },
+    },
   },
 });
 
 const NavLi = styled("li", {
-  base: {
-    listStyle: "none",
-  },
+  base: {},
 });
 
 const NavAnchorClass = style({
-  color: "#000",
+  color: semanticColors.text.black,
   textDecoration: "none",
+  position: "relative",
 });
 
 const NavText = styled("div", {
   base: {
+    width: "6ch",
     display: "flex",
-    flexDirection: "row",
-    gap: space["x0.5"],
     alignItems: "center",
-    padding: `${space.x1} ${space.x2}`,
+    justifyContent: "center",
+    padding: `${space["x0.5"]} ${space.x1}`,
+    fontSize: fontSize.body.fontSize,
+    lineHeight: fontSize.body.lineHeight,
+    fontWeight: "bold",
   },
   variants: {
-    current: {
+    isMobile: {
       true: {
-        borderBottom: "2px solid #000",
+        width: "auto",
+      },
+    },
+  },
+});
+
+const NavBorder = styled("div", {
+  base: {
+    position: "absolute",
+    bottom: "0",
+    left: "0",
+    width: "100%",
+    height: "2px",
+    backgroundColor: semanticColors.text.black,
+    transformOrigin: "center",
+    transform: "scale(0)",
+    zIndex: "-2",
+
+    transitionProperty: "transform",
+    transitionDuration: "0.1s",
+    transitionTimingFunction: "ease",
+
+    selectors: {
+      "a:hover &": {
+        transform: "scaleX(0.5)",
+      },
+      "a.active_ &": {
+        transform: "scaleX(1)",
       },
     },
   },
@@ -76,22 +155,41 @@ const Header: Component = () => {
   const location = useLocation();
 
   return (
-    <HeaderContainer hidden={location.pathname === "/"}>
-      <HeaderNav>
-        <NavUl>
+    <HeaderContainer>
+      <HeaderBackground
+        onTop={location.pathname === "/"}
+        isTopMobile={location.pathname === "/" && device() === "mobile"}
+      />
+      <HeaderNav hidden={location.pathname === "/"}>
+        <NavUl isMobile={device() === "mobile"}>
           <NavLi>
             <A href="/" class={NavAnchorClass}>
-              <NavText>Top</NavText>
+              <NavText isMobile={device() === "mobile"}>Top</NavText>
+              <NavBorder />
             </A>
           </NavLi>
           <NavLi>
-            <A href="/about" class={NavAnchorClass}>
-              <NavText current={location.pathname === "/about"}>About</NavText>
+            <A
+              href="/about"
+              class={NavAnchorClass}
+              classList={{
+                active_: location.pathname === "/about",
+              }}
+            >
+              <NavText isMobile={device() === "mobile"}>About</NavText>
+              <NavBorder />
             </A>
           </NavLi>
           <NavLi>
-            <A href="/works" class={NavAnchorClass}>
-              <NavText current={location.pathname === "/works"}>Works</NavText>
+            <A
+              href="/works"
+              class={NavAnchorClass}
+              classList={{
+                active_: location.pathname === "/works",
+              }}
+            >
+              <NavText isMobile={device() === "mobile"}>Works</NavText>
+              <NavBorder />
             </A>
           </NavLi>
           <NavLi>
@@ -101,10 +199,8 @@ const Header: Component = () => {
               rel="noopener noreferrer"
               class={NavAnchorClass}
             >
-              <NavText>
-                Blog
-                <TbExternalLink size={18} color="#000000" />
-              </NavText>
+              <NavText isMobile={device() === "mobile"}>Blog</NavText>
+              <NavBorder />
             </a>
           </NavLi>
         </NavUl>
