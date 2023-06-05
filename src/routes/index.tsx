@@ -59,7 +59,7 @@ const NavBorder = styled("div", {
     transform: "scale(0)",
     zIndex: "-2",
 
-    transitionProperty: "all",
+    transitionProperty: "transform",
     transitionDuration: "0.1s",
     transitionTimingFunction: "ease",
 

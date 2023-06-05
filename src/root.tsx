@@ -76,7 +76,7 @@ const CharaImg = styled("div", {
     backgroundSize: "auto calc(100% + 120px)",
     opacity: "1",
 
-    transitionProperty: "all",
+    transitionProperty: "opacity, background-position, background-size",
     transitionDuration: "0.2s",
     transitionTimingFunction: "ease",
   },
@@ -126,7 +126,7 @@ const BackgroundImg = styled("div", {
     backgroundSize: "auto calc(100% + 120px)",
     opacity: "1",
 
-    transitionProperty: "all",
+    transitionProperty: "opacity, background-position, background-size",
     transitionDuration: "0.2s",
     transitionTimingFunction: "ease",
   },
