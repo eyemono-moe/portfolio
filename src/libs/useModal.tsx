@@ -28,8 +28,16 @@ const ModalBackground = styled("div", {
 
 const useModal = (mount?: Node) => {
   const [isOpen, setIsOpen] = createSignal(false);
-  const open = () => setIsOpen(true);
-  const close = () => setIsOpen(false);
+  const open = () => {
+    // prevent scroll
+    document.body.style.overflow = "hidden";
+    setIsOpen(true);
+  };
+  const close = () => {
+    // restore scroll
+    document.body.style.overflow = "auto";
+    setIsOpen(false);
+  };
 
   const closeOnEsc = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
@@ -49,14 +57,7 @@ const useModal = (mount?: Node) => {
       <Show when={isOpen()}>
         <Portal mount={mount ? mount : document.body}>
           <StyleProvider>
-            <ModalBackground
-              onClick={(e) => {
-                e.stopPropagation();
-                close();
-              }}
-            >
-              {props.children}
-            </ModalBackground>
+            <ModalBackground onClick={close}>{props.children}</ModalBackground>
           </StyleProvider>
         </Portal>
       </Show>
