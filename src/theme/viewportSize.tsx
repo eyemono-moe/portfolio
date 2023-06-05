@@ -26,6 +26,7 @@ const viewportSize = () => {
     mobileMql.addEventListener("change", onChange);
     tabletMql = window.matchMedia(TABLET_SIZE_QUERY);
     tabletMql.addEventListener("change", onChange);
+    onChange();
   });
 
   onCleanup(() => {
