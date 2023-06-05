@@ -12,6 +12,7 @@ import {
   Routes,
   Scripts,
   Title,
+  useIsRouting,
   useLocation,
 } from "solid-start";
 
@@ -31,6 +32,24 @@ const BodyLayout = styled("div", {
     overflowX: "hidden",
   },
 });
+
+const FadeOnRouting = styled("div", {
+  base: {
+    width: "100%",
+    height: "100%",
+    opacity: "1",
+    transitionProperty: "opacity",
+    transitionDuration: "0.2s",
+  },
+  variants: {
+    isRouting: {
+      true: {
+        opacity: "0",
+      },
+    },
+  },
+});
+
 const ContentBlock = styled("div", {
   base: {
     width: "100%",
@@ -158,6 +177,8 @@ const BackgroundImgs: Component = () => {
 };
 
 const BodyContent: Component = () => {
+  const isRouting = useIsRouting();
+
   return (
     <Body>
       <StyleProvider>
@@ -166,9 +187,11 @@ const BodyContent: Component = () => {
             <BodyLayout>
               <Header />
               <ContentBlock>
-                <Routes>
-                  <FileRoutes />
-                </Routes>
+                <FadeOnRouting isRouting={isRouting()}>
+                  <Routes>
+                    <FileRoutes />
+                  </Routes>
+                </FadeOnRouting>
               </ContentBlock>
               <Footer />
             </BodyLayout>
