@@ -1,7 +1,7 @@
 import { styled } from "@macaron-css/solid";
 import { ParentComponent } from "solid-js";
 
-import { layoutSpace, space } from "~/theme/space";
+import { layoutSpace } from "~/theme/space";
 
 const EdgePadding = styled("div", {
   base: {
@@ -26,7 +26,6 @@ const Main = styled("main", {
   base: {
     width: "100%",
     height: "100%",
-    marginBottom: space.x4,
   },
 });
 

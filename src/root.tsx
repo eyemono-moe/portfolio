@@ -20,6 +20,7 @@ import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "~/consts";
 import "normalize.css";
+import { space } from "~/theme/space";
 import StyleProvider from "~/theme/StyleProvider";
 import { device } from "~/theme/viewportSize";
 
@@ -29,6 +30,7 @@ const BodyLayout = styled("div", {
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
+    gap: space.x3,
     overflowX: "hidden",
   },
 });
