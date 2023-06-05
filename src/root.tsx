@@ -16,6 +16,8 @@ import {
   useLocation,
 } from "solid-start";
 
+import { easeInOut, easeInOutSoft } from "./theme/animation";
+
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "~/consts";
@@ -77,8 +79,8 @@ const CharaImg = styled("div", {
     opacity: "1",
 
     transitionProperty: "opacity, background-position, background-size",
-    transitionDuration: "0.2s",
-    transitionTimingFunction: "ease",
+    transitionDuration: "0.5s",
+    transitionTimingFunction: easeInOut,
   },
   variants: {
     isWorksPage: {
@@ -127,8 +129,8 @@ const BackgroundImg = styled("div", {
     opacity: "1",
 
     transitionProperty: "opacity, background-position, background-size",
-    transitionDuration: "0.2s",
-    transitionTimingFunction: "ease",
+    transitionDuration: "0.5s",
+    transitionTimingFunction: easeInOutSoft,
   },
   variants: {
     isWorksPage: {

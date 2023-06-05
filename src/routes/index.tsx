@@ -6,6 +6,7 @@ import { Title } from "solid-start";
 import { MainContainer } from "~/components/MainContainer";
 import { H1 } from "~/components/Primitives";
 import { SITE_TITLE } from "~/consts";
+import { easeInOut } from "~/theme/animation";
 import { semanticColors } from "~/theme/color";
 import { space } from "~/theme/space";
 import { fontSize } from "~/theme/typography";
@@ -61,7 +62,7 @@ const NavBorder = styled("div", {
 
     transitionProperty: "transform",
     transitionDuration: "0.1s",
-    transitionTimingFunction: "ease",
+    transitionTimingFunction: easeInOut,
 
     selectors: {
       "a:hover &": {

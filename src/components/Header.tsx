@@ -3,6 +3,7 @@ import { styled } from "@macaron-css/solid";
 import { Component } from "solid-js";
 import { A, useLocation } from "solid-start";
 
+import { easeInOut } from "~/theme/animation";
 import { semanticColors } from "~/theme/color";
 import { layoutSpace, space } from "~/theme/space";
 import { fontSize } from "~/theme/typography";
@@ -17,7 +18,7 @@ const HeaderContainer = styled("header", {
 
     transitionProperty: "top",
     transitionDuration: "0.2s",
-    transitionTimingFunction: "ease-in-out",
+    transitionTimingFunction: easeInOut,
   },
 });
 
@@ -33,8 +34,8 @@ const HeaderBackground = styled("div", {
     backgroundColor: semanticColors.accent.secondary,
 
     transitionProperty: "width, height, transform",
-    transitionDuration: "0.2s",
-    transitionTimingFunction: "ease-in-out",
+    transitionDuration: "0.5s",
+    transitionTimingFunction: easeInOut,
   },
   variants: {
     onTop: {
@@ -61,7 +62,7 @@ const HeaderNav = styled("nav", {
     left: "0",
     transitionProperty: "top",
     transitionDuration: "0.2s",
-    transitionTimingFunction: "ease-in-out",
+    transitionTimingFunction: easeInOut,
   },
   variants: {
     hidden: {
@@ -138,7 +139,7 @@ const NavBorder = styled("div", {
 
     transitionProperty: "transform",
     transitionDuration: "0.1s",
-    transitionTimingFunction: "ease",
+    transitionTimingFunction: easeInOut,
 
     selectors: {
       "a:hover &": {

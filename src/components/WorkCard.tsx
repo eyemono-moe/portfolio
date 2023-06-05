@@ -5,6 +5,7 @@ import { For, ParentComponent } from "solid-js";
 
 import { H2 } from "~/components/Primitives";
 import useModal from "~/libs/useModal";
+import { easeInOutBack } from "~/theme/animation";
 import { semanticColors } from "~/theme/color";
 import { space } from "~/theme/space";
 import { fontSize } from "~/theme/typography";
@@ -35,7 +36,7 @@ const Thumbnail = styled("img", {
     objectFit: "cover",
     transitionProperty: "transform, opacity",
     transitionDuration: "0.1s",
-    transitionTimingFunction: "ease",
+    transitionTimingFunction: easeInOutBack,
 
     selectors: {
       [`${CardContainerClass}:hover &`]: {
