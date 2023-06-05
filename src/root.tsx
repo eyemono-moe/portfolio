@@ -27,7 +27,7 @@ import { device } from "~/theme/viewportSize";
 const BodyLayout = styled("div", {
   base: {
     width: "100%",
-    minHeight: "100vh",
+    minHeight: "100dvh",
     display: "flex",
     flexDirection: "column",
     gap: space.x3,
