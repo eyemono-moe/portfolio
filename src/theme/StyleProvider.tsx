@@ -16,12 +16,7 @@ globalStyle("*, *:before, *:after", {
 
 const StyleProvider: ParentComponent = (props) => {
   return (
-    <div
-      classList={{
-        [fontSizeClass()]: true,
-        [layoutSpaceClass()]: true,
-      }}
-    >
+    <div class={[fontSizeClass(), layoutSpaceClass()].join(" ")}>
       {props.children}
     </div>
   );

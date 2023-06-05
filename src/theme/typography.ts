@@ -21,7 +21,7 @@ export const fontSize = createThemeContract({
   },
 });
 
-export const desktopFontSize = createTheme(fontSize, {
+const desktopFontSize = createTheme(fontSize, {
   body: {
     fontSize: "1rem",
     lineHeight: "1.75",
@@ -40,7 +40,7 @@ export const desktopFontSize = createTheme(fontSize, {
   },
 });
 
-export const mobileFontSize = createTheme(fontSize, {
+const mobileFontSize = createTheme(fontSize, {
   body: {
     fontSize: "1rem",
     lineHeight: "1.5",
