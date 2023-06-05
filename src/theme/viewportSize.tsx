@@ -5,13 +5,16 @@ const TABLET_SIZE_QUERY = "screen and (max-width: 960px)";
 
 const viewportSize = () => {
   const [device, setDevice] = createSignal<"mobile" | "tablet" | "desktop">(
-    "desktop"
+    "mobile"
   );
 
+  let mobileMql: MediaQueryList;
+  let tabletMql: MediaQueryList;
+
   const onChange = () => {
-    if (window.matchMedia(MOBILE_SIZE_QUERY).matches) {
+    if (mobileMql.matches) {
       setDevice("mobile");
-    } else if (window.matchMedia(TABLET_SIZE_QUERY).matches) {
+    } else if (tabletMql.matches) {
       setDevice("tablet");
     } else {
       setDevice("desktop");
@@ -19,17 +22,15 @@ const viewportSize = () => {
   };
 
   onMount(() => {
-    window.matchMedia(MOBILE_SIZE_QUERY).addEventListener("change", onChange);
-    window.matchMedia(TABLET_SIZE_QUERY).addEventListener("change", onChange);
+    mobileMql = window.matchMedia(MOBILE_SIZE_QUERY);
+    mobileMql.addEventListener("change", onChange);
+    tabletMql = window.matchMedia(TABLET_SIZE_QUERY);
+    tabletMql.addEventListener("change", onChange);
   });
 
   onCleanup(() => {
-    window
-      .matchMedia(MOBILE_SIZE_QUERY)
-      .removeEventListener("change", onChange);
-    window
-      .matchMedia(TABLET_SIZE_QUERY)
-      .removeEventListener("change", onChange);
+    mobileMql.removeEventListener("change", onChange);
+    tabletMql.removeEventListener("change", onChange);
   });
 
   return device;
