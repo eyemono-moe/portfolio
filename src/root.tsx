@@ -82,7 +82,7 @@ const CharaImg = styled("div", {
         backgroundSize: "auto 100%",
       },
     },
-    isAboutTablet: {
+    hiddenInAbout: {
       true: {
         opacity: "0",
       },
@@ -144,7 +144,7 @@ const BackgroundImgs: Component = () => {
         isTopMobile={location.pathname === "/" && device() === "mobile"}
         isTopTablet={location.pathname === "/" && device() === "tablet"}
         isAboutPage={location.pathname === "/about"}
-        isAboutTablet={location.pathname === "/about" && device() === "tablet"}
+        hiddenInAbout={location.pathname === "/about" && device() !== "desktop"}
         isWorksPage={location.pathname === "/works"}
       />
       <BackgroundImg
