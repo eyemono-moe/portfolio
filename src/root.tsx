@@ -16,7 +16,7 @@ import {
   useLocation,
 } from "solid-start";
 
-import { easeInOut, easeInOutSoft } from "./theme/animation";
+import { easeInOutSoft } from "./theme/animation";
 
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
@@ -80,18 +80,13 @@ const CharaImg = styled("div", {
 
     transitionProperty: "opacity, background-position, background-size",
     transitionDuration: "0.5s",
-    transitionTimingFunction: easeInOut,
+    transitionTimingFunction: easeInOutSoft,
   },
   variants: {
-    isWorksPage: {
-      true: {
+    isTop: {
+      false: {
         backgroundPosition: "right -999px bottom -180px",
         opacity: "0",
-      },
-    },
-    isAboutPage: {
-      true: {
-        backgroundPosition: "left calc(80% + 400px) bottom -180px",
       },
     },
     isTopTablet: {
@@ -105,9 +100,10 @@ const CharaImg = styled("div", {
         backgroundSize: "auto 100%",
       },
     },
-    hiddenInAbout: {
+    isAboutPage: {
       true: {
-        opacity: "0",
+        backgroundPosition: "left calc(80% + 400px) bottom -180px",
+        opacity: "1",
       },
     },
   },
@@ -133,13 +129,8 @@ const BackgroundImg = styled("div", {
     transitionTimingFunction: easeInOutSoft,
   },
   variants: {
-    isWorksPage: {
-      true: {
-        opacity: "0.7",
-      },
-    },
-    isAboutPage: {
-      true: {
+    isTop: {
+      false: {
         backgroundPosition: "left calc(80% + 400px) bottom -180px",
         opacity: "0.05",
       },
@@ -164,17 +155,15 @@ const BackgroundImgs: Component = () => {
   return (
     <>
       <CharaImg
-        isTopMobile={location.pathname === "/" && device() === "mobile"}
+        isTop={location.pathname === "/"}
         isTopTablet={location.pathname === "/" && device() === "tablet"}
+        isTopMobile={location.pathname === "/" && device() === "mobile"}
         isAboutPage={location.pathname === "/about"}
-        hiddenInAbout={location.pathname === "/about" && device() !== "desktop"}
-        isWorksPage={location.pathname === "/works"}
       />
       <BackgroundImg
+        isTop={location.pathname === "/"}
         isTopTablet={location.pathname === "/" && device() === "tablet"}
         isTopMobile={location.pathname === "/" && device() === "mobile"}
-        isAboutPage={location.pathname === "/about"}
-        isWorksPage={location.pathname === "/works"}
       />
     </>
   );
