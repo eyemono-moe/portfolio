@@ -83,10 +83,17 @@ const CharaImg = styled("div", {
     transitionTimingFunction: easeInOutSoft,
   },
   variants: {
+    display: {
+      true: {
+        opacity: "1",
+      },
+      false: {
+        opacity: "0",
+      },
+    },
     isTop: {
       false: {
         backgroundPosition: "right -999px bottom -180px",
-        opacity: "0",
       },
     },
     isTopTablet: {
@@ -103,7 +110,6 @@ const CharaImg = styled("div", {
     isAboutPage: {
       true: {
         backgroundPosition: "left calc(80% + 400px) bottom -180px",
-        opacity: "1",
       },
     },
   },
@@ -155,6 +161,10 @@ const BackgroundImgs: Component = () => {
   return (
     <>
       <CharaImg
+        display={
+          location.pathname === "/" ||
+          (device() === "desktop" && location.pathname === "/about")
+        }
         isTop={location.pathname === "/"}
         isTopTablet={location.pathname === "/" && device() === "tablet"}
         isTopMobile={location.pathname === "/" && device() === "mobile"}
