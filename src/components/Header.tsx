@@ -145,7 +145,7 @@ const NavBorder = styled("div", {
       "a:hover &": {
         transform: "scaleX(0.5)",
       },
-      "a.active_ &": {
+      "a.active &": {
         transform: "scaleX(1)",
       },
     },
@@ -164,31 +164,19 @@ const Header: Component = () => {
       <HeaderNav hidden={location.pathname === "/"}>
         <NavUl isMobile={device() === "mobile"}>
           <NavLi>
-            <A href="/" class={NavAnchorClass}>
+            <A href="/" class={NavAnchorClass} end>
               <NavText isMobile={device() === "mobile"}>Top</NavText>
               <NavBorder />
             </A>
           </NavLi>
           <NavLi>
-            <A
-              href="/about"
-              class={NavAnchorClass}
-              classList={{
-                active_: location.pathname === "/about",
-              }}
-            >
+            <A href="/about" class={NavAnchorClass}>
               <NavText isMobile={device() === "mobile"}>About</NavText>
               <NavBorder />
             </A>
           </NavLi>
           <NavLi>
-            <A
-              href="/works"
-              class={NavAnchorClass}
-              classList={{
-                active_: location.pathname === "/works",
-              }}
-            >
+            <A href="/works" class={NavAnchorClass}>
               <NavText isMobile={device() === "mobile"}>Works</NavText>
               <NavBorder />
             </A>
