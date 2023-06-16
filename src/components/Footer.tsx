@@ -23,7 +23,7 @@ const FooterContainer = styled("footer", {
 const Footer: Component = () => {
   return (
     <FooterContainer>
-      <div>© 2023 d_etteiu8338</div>
+      <div>© 2023 eyemono.moe</div>
       <a
         href="https://github.com/detteiu8383/portfolio"
         target="_blank"

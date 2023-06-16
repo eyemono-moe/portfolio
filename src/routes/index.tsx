@@ -87,7 +87,7 @@ export default function Top() {
       <Title>{SITE_TITLE}</Title>
       <MainContainer>
         <VerticalCenter>
-          <H1>d_etteiu Portfolio</H1>
+          <H1>eyemono.moe</H1>
           <TopNav>
             <TopNavUl>
               <TopNavLi>

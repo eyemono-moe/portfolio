@@ -4,4 +4,4 @@
 
 ### Links
 
-- [でっていうメーカー](https://icon-maker.eyemono.moe/)
+- [eyemono.moe メーカー](https://icon-maker.eyemono.moe/)
