@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+SiteMap: https://www.eyemono.moe/sitemap.xml
