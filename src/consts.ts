@@ -7,6 +7,12 @@ export const SITE_URL = "https://www.eyemono.moe/";
 
 export const WORKS = [
   {
+    title: "eyeOS",
+    imagePath: "/work-thumbnail/eyeos.webp",
+    tags: ["WebApp", "Solid.js", "TypeScript"],
+    mdx: lazy(() => import("~/md/eyeos.md")),
+  },
+  {
     title: "Portfolio",
     imagePath: "/work-thumbnail/portfolio.webp",
     tags: ["WebApp", "Solid.js", "TypeScript"],
