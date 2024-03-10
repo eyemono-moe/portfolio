@@ -20,8 +20,8 @@
     "@mdx-js/rollup": "^3.0.1",
     "@solid-primitives/resize-observer": "^2.0.25",
     "@solidjs/meta": "^0.29.3",
-    "@solidjs/router": "^0.12.5",
-    "@solidjs/start": "^0.6.1",
+    "@solidjs/router": "^0.13.0",
+    "@solidjs/start": "^0.7.3",
     "@unocss/reset": "^0.58.5",
     "solid-js": "^1.8.15",
     "vinxi": "^0.3.10"

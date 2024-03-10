@@ -1,7 +1,7 @@
 import "virtual:uno.css";
 import { MetaProvider } from "@solidjs/meta";
 import { Router, useLocation } from "@solidjs/router";
-import { FileRoutes } from "@solidjs/start";
+import { FileRoutes } from "@solidjs/start/router";
 import "@unocss/reset/tailwind-compat.css";
 import { Suspense } from "solid-js";
 import Footer from "./components/Footer";
