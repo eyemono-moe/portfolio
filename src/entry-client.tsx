@@ -1,3 +1,5 @@
-import { mount, StartClient } from "solid-start/entry-client";
+// @refresh reload
+import { StartClient, mount } from "@solidjs/start/client";
 
-mount(() => <StartClient />, document);
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+mount(() => <StartClient />, document.getElementById("app")!);

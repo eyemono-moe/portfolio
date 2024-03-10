@@ -1,32 +1,15 @@
-import { styled } from "@macaron-css/solid";
-import { Component } from "solid-js";
-
-import svgUrl from "~/assets/icon-blink.svg";
-import { semanticColors } from "~/theme/color";
-
-const CenteredContainer = styled("div", {
-  base: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-  },
-});
-
-const IconContainer = styled("img", {
-  base: {
-    width: "max(40%, 100px)",
-    height: "auto",
-    aspectRatio: "1/1",
-    borderRadius: "999px",
-    border: `2px solid ${semanticColors.ui.border}`,
-  },
-});
+import type { Component } from "solid-js";
+import IconSvg from "~/assets/icon-blink.svg";
 
 const Icon: Component = () => {
   return (
-    <CenteredContainer>
-      <IconContainer src={svgUrl} />
-    </CenteredContainer>
+    <div class="flex w-full justify-center">
+      <img
+        src={IconSvg}
+        class="aspect-square h-auto w-[max(40%,100px)] rounded-full"
+        alt="eyemono logo"
+      />
+    </div>
   );
 };
 

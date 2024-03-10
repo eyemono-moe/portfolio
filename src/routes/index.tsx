@@ -1,122 +1,39 @@
-import { style } from "@macaron-css/core";
-import { styled } from "@macaron-css/solid";
+import { Title } from "@solidjs/meta";
 import { A } from "@solidjs/router";
-import { Title } from "solid-start";
-
-import { MainContainer } from "~/components/MainContainer";
-import { H1 } from "~/components/Primitives";
 import { SITE_TITLE } from "~/consts";
-import { easeInOut } from "~/theme/animation";
-import { semanticColors } from "~/theme/color";
-import { space } from "~/theme/space";
-import { fontSize } from "~/theme/typography";
-
-const TopNav = styled("nav", {});
-
-const TopNavUl = styled("ul", {
-  base: {
-    margin: "0",
-    marginInline: "0",
-    marginBlock: "0",
-    paddingInline: "0",
-    listStyle: "none",
-
-    display: "flex",
-    flexDirection: "column",
-    gap: space.x1,
-  },
-});
-
-const TopNavLi = styled("li", {
-  base: {
-    width: "fit-content",
-  },
-});
-
-const NavAnchorClass = style({
-  color: semanticColors.text.black,
-  textDecoration: "none",
-  position: "relative",
-});
-
-const NavText = styled("div", {
-  base: {
-    padding: `${space.x1} ${space.x2}`,
-    fontSize: fontSize.h2.fontSize,
-    lineHeight: fontSize.h2.lineHeight,
-    fontWeight: "bold",
-  },
-});
-
-const NavBorder = styled("div", {
-  base: {
-    position: "absolute",
-    bottom: "-4px",
-    left: "0",
-    width: "100%",
-    height: "4px",
-    backgroundColor: semanticColors.text.black,
-    transformOrigin: "center",
-    transform: "scale(0)",
-    zIndex: "-2",
-
-    transitionProperty: "transform",
-    transitionDuration: "0.1s",
-    transitionTimingFunction: easeInOut,
-
-    selectors: {
-      "a:hover &": {
-        transform: "scale(1)",
-      },
-    },
-  },
-});
-
-const VerticalCenter = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    height: "100%",
-  },
-});
 
 export default function Top() {
   return (
-    <>
-      <Title>{SITE_TITLE}</Title>
-      <MainContainer>
-        <VerticalCenter>
-          <H1>eyemono.moe</H1>
-          <TopNav>
-            <TopNavUl>
-              <TopNavLi>
-                <A class={NavAnchorClass} href="/about">
-                  <NavText>About</NavText>
-                  <NavBorder />
-                </A>
-              </TopNavLi>
-              <TopNavLi>
-                <A class={NavAnchorClass} href="/works">
-                  <NavText>Works</NavText>
-                  <NavBorder />
-                </A>
-              </TopNavLi>
-              <TopNavLi>
-                <a
-                  class={NavAnchorClass}
-                  href="https://trap.jp/author/d_etteiu8383/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <NavText>Blog</NavText>
-                  <NavBorder />
-                </a>
-              </TopNavLi>
-            </TopNavUl>
-          </TopNav>
-        </VerticalCenter>
-      </MainContainer>
-    </>
+    <div>
+      <Title>{`${SITE_TITLE}`}</Title>
+      <h1 class="h1-text mb-4">eyemono.moe</h1>
+      <nav>
+        <ul class="flex flex-col gap-2">
+          <li class="w-fit">
+            <A class="parent relative" href="/about">
+              <div class="h2-text px-4 py-2">About</div>
+              <div class="absolute bottom--4px left-0 h-4px w-full origin-center scale-0 bg-text-black transition-transform-100 parent-hover:scale-100" />
+            </A>
+          </li>
+          <li class="w-fit">
+            <A class="parent relative" href="/works">
+              <div class="h2-text px-4 py-2">Works</div>
+              <div class="absolute bottom--4px left-0 h-4px w-full origin-center scale-0 bg-text-black transition-transform-100 parent-hover:scale-100" />
+            </A>
+          </li>
+          <li class="w-fit">
+            <a
+              class="parent relative"
+              href="https://trap.jp/author/d_etteiu8383/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div class="h2-text px-4 py-2">Blog</div>
+              <div class="absolute bottom--4px left-0 h-4px w-full origin-center scale-0 bg-text-black transition-transform-100 parent-hover:scale-100" />
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   );
 }
