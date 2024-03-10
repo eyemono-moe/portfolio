@@ -14,6 +14,19 @@ export default createHandler(() => (
           <link rel="icon" type="image/png" href="/favicon.png" />
           <meta name="description" content={SITE_DESCRIPTION} />
 
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com/"
+            crossorigin="anonymous"
+          />
+          <link
+            rel="preload"
+            as="style"
+            href="https://fonts.googleapis.com/css2?family=Noto Sans JP:wght@400;700&display=swap"
+          />
+          <link rel="preload" as="image" href="/background/chara.webp" />
+          <link rel="preload" as="image" href="/background/bg.webp" />
+
           <meta property="og:url" content={SITE_URL} />
           <meta property="og:type" content="website" />
           <meta property="og:title" content={SITE_TITLE} />
