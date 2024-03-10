@@ -8,6 +8,7 @@ const Footer: Component = () => {
         href="https://github.com/eyemono-moe/portfolio"
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="GitHub Repository"
       >
         <div class="i-ri:github-fill h-6 w-6 text-text-white" />
       </a>
