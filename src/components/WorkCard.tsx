@@ -1,151 +1,11 @@
-import { style } from "@macaron-css/core";
-import { styled } from "@macaron-css/solid";
-import { FaRegularCircleXmark } from "solid-icons/fa";
-import { For, ParentComponent } from "solid-js";
-
-import { H2 } from "~/components/Primitives";
+import {
+  For,
+  type ParentComponent,
+  Suspense,
+  children,
+  createEffect,
+} from "solid-js";
 import useModal from "~/libs/useModal";
-import { easeInOutBack } from "~/theme/animation";
-import { semanticColors } from "~/theme/color";
-import { space } from "~/theme/space";
-import { fontSize } from "~/theme/typography";
-import { device } from "~/theme/viewportSize";
-
-const CardContainerClass = style({
-  borderRadius: "8px",
-  borderWidth: "1px",
-  borderStyle: "solid",
-  borderColor: semanticColors.ui.border,
-  cursor: "pointer",
-  overflow: "hidden",
-  backgroundColor: semanticColors.ui.background,
-});
-
-const ThumbnailContainer = styled("div", {
-  base: {
-    overflow: "hidden",
-    width: "100%",
-    height: "150px",
-  },
-});
-
-const Thumbnail = styled("img", {
-  base: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    transitionProperty: "transform, opacity",
-    transitionDuration: "0.1s",
-    transitionTimingFunction: easeInOutBack,
-
-    selectors: {
-      [`${CardContainerClass}:hover &`]: {
-        transform: "scale(1.1)",
-        opacity: "0.8",
-      },
-    },
-  },
-});
-
-const TagsWrapper = styled("ul", {
-  base: {
-    margin: "0",
-    marginInline: "0",
-    marginBlock: "0",
-    paddingInline: "0",
-    listStyle: "none",
-
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    gap: space.x1,
-  },
-});
-
-const Tag = styled("span", {
-  base: {
-    color: semanticColors.text.gray,
-    ":before": {
-      content: "'#'",
-    },
-  },
-});
-
-const CardContents = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: space["x0.5"],
-    padding: space.x2,
-  },
-});
-
-const ModalContainer = styled("div", {
-  base: {
-    position: "relative",
-    borderRadius: "8px",
-    borderWidth: "1px",
-    borderStyle: "solid",
-    borderColor: semanticColors.ui.border,
-    background: semanticColors.ui.background,
-    width: "min(100%, 1024px)",
-    overflow: "hidden",
-  },
-});
-
-const Scroll = styled("div", {
-  base: {
-    width: "100%",
-    maxHeight: "90dvh",
-    overflowY: "auto",
-  },
-});
-
-const Vignette = styled("div", {
-  base: {
-    position: "relative",
-    selectors: {
-      "&::before": {
-        content: "''",
-        position: "absolute",
-        top: "0",
-        left: "0",
-        right: "0",
-        bottom: "0",
-        background: "linear-gradient(transparent 75%, rgba(0,0,0,0.25))",
-      },
-    },
-  },
-});
-
-const PreviewImg = styled("img", {
-  base: {
-    width: "100%",
-    height: "400px",
-    objectFit: "cover",
-  },
-  variants: {
-    isMobile: {
-      true: {
-        height: "200px",
-      },
-    },
-  },
-});
-
-const DescriptionContainer = styled("div", {
-  base: {
-    padding: space.x2,
-  },
-});
-
-const CardTitle = styled(H2, {
-  base: {
-    margin: "0",
-    fontSize: fontSize.h2.fontSize,
-    lineHeight: fontSize.h2.lineHeight,
-  },
-});
 
 export type WorkCardProps = {
   title: string;
@@ -153,65 +13,69 @@ export type WorkCardProps = {
   imagePath: string;
 };
 
-const CloseButton = styled("div", {
-  base: {
-    position: "absolute",
-    top: space.x1,
-    right: space.x1,
-    backgroundColor: semanticColors.ui.background,
-    borderRadius: "50%",
-    cursor: "pointer",
-    width: "32px",
-    height: "32px",
-  },
-});
-
 const WorkCard: ParentComponent<WorkCardProps> = (props) => {
   const { Modal, open, close } = useModal();
 
   const Tags = () => (
-    <TagsWrapper>
+    <ul class="color-text-gray not-prose flex list-none items-center gap-2">
       <For each={props.tags}>
-        {(tag) => (
-          <li>
-            <Tag>{tag}</Tag>
-          </li>
-        )}
+        {(tag) => <li class="before:content-['#']">{tag}</li>}
       </For>
-    </TagsWrapper>
+    </ul>
   );
 
   return (
     <>
-      <div class={CardContainerClass} onClick={open}>
-        <ThumbnailContainer>
-          <Thumbnail src={props.imagePath} alt={props.title} />
-        </ThumbnailContainer>
-        <CardContents>
+      <div
+        onClick={open}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") open();
+        }}
+        class="group cursor-pointer overflow-hidden rounded bg-ui-background shadow"
+      >
+        <div class="h-150px w-full overflow-hidden">
+          <img
+            src={props.imagePath}
+            alt={props.title}
+            class="h-full w-full overflow-hidden object-cover transition-transform-100 group-hover:scale-110"
+          />
+        </div>
+        <div class="p-2">
           {props.title}
           <Tags />
-        </CardContents>
+        </div>
       </div>
       <Modal>
-        <ModalContainer onClick={(e) => e.stopPropagation()}>
-          <Scroll>
-            <Vignette>
-              <PreviewImg
-                src={props.imagePath}
-                alt={props.title}
-                isMobile={device() === "mobile"}
-              />
-            </Vignette>
-            <DescriptionContainer>
-              <CardTitle>{props.title}</CardTitle>
-              <Tags />
-              {props.children}
-            </DescriptionContainer>
-          </Scroll>
-          <CloseButton onClick={close} role="button">
-            <FaRegularCircleXmark size={32} fill={semanticColors.text.gray} />
-          </CloseButton>
-        </ModalContainer>
+        {/* biome-ignore lint/a11y/useKeyWithClickEvents: stop propagation */}
+        <div
+          class="relative max-h-90dvh w-[min(100%,1024px)] overflow-y-auto rounded bg-ui-background"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <div class="relative h-60% min-h-200px max-h-600px w-full">
+            <img
+              src={props.imagePath}
+              alt={props.title}
+              class="w-full h-60% min-h-200px max-h-600px object-cover"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/20" />
+          </div>
+          <div class="prose prose-black max-w-unset! px-4 py-4 md:px-8 transition-all-200 all-[a]:(text-text-link visited:text-text-visited) grid grid-rows-[auto_auto_0fr] has-[.content]:grid-rows-[auto_auto_1fr]">
+            <h2 class="mt-0">{props.title}</h2>
+            <Tags />
+            <Suspense>
+              <div class="content overflow-hidden">{props.children}</div>
+            </Suspense>
+          </div>
+          <button
+            onClick={close}
+            class="absolute top-4 right-4 rounded-full bg-transparent bg-ui-background p-0"
+            type="button"
+          >
+            <div class="i-ri:close-circle-line color-text-gray h-8 w-8" />
+          </button>
+        </div>
       </Modal>
     </>
   );

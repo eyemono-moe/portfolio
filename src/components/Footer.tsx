@@ -1,37 +1,17 @@
-import { styled } from "@macaron-css/solid";
-import { FaBrandsGithub } from "solid-icons/fa";
-import { Component } from "solid-js";
-
-import { semanticColors } from "~/theme/color";
-import { layoutSpace, space } from "~/theme/space";
-
-const FooterContainer = styled("footer", {
-  base: {
-    position: "relative",
-    width: "100%",
-    padding: `${space.x2} ${layoutSpace.edgePadding}`,
-    color: semanticColors.text.white,
-    backgroundColor: semanticColors.ui.backgroundInverted,
-
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    gap: space.x2,
-  },
-});
+import type { Component } from "solid-js";
 
 const Footer: Component = () => {
   return (
-    <FooterContainer>
+    <footer class="flex w-full gap-2 bg-ui-backgroundInverted px-4 py-4 text-text-white md:px-10">
       <div>© 2023 eyemono.moe</div>
       <a
-        href="https://github.com/detteiu8383/portfolio"
+        href="https://github.com/eyemono-moe/portfolio"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <FaBrandsGithub size={36} fill={semanticColors.text.white} />
+        <div class="i-ri:github-fill h-6 w-6 text-text-white" />
       </a>
-    </FooterContainer>
+    </footer>
   );
 };
 
