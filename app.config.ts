@@ -5,6 +5,9 @@ import UnoCSS from "unocss/vite";
 export default defineConfig({
   server: {
     preset: "vercel",
+    prerender: {
+      crawlLinks: true,
+    },
   },
   vite: {
     plugins: [
