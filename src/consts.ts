@@ -7,6 +7,12 @@ export const SITE_URL = "https://www.eyemono.moe/";
 
 export const WORKS = [
   {
+    title: "アイコンメーカー",
+    imagePath: "/work-thumbnail/icon-maker.webp",
+    tags: ["WebApp", "Solid.js", "TypeScript"],
+    mdx: lazy(() => import("~/md/icon-maker.md")),
+  },
+  {
     title: "NeoShowcase",
     imagePath: "/work-thumbnail/neoshowcase.webp",
     tags: ["WebApp", "Solid.js", "TypeScript"],
@@ -37,16 +43,10 @@ export const WORKS = [
     mdx: lazy(() => import("~/md/vscode-theme-monoeye.md")),
   },
   {
-    title: "Virtual Detteiu",
+    title: "you.svg",
     imagePath: "/work-thumbnail/virtual-detteiu.webp",
     tags: ["WebApp", "Solid.js", "TypeScript"],
     mdx: lazy(() => import("~/md/virtual-detteiu.md")),
-  },
-  {
-    title: "でっていうメーカー",
-    imagePath: "/work-thumbnail/icon-maker.webp",
-    tags: ["WebApp", "Solid.js", "TypeScript"],
-    mdx: lazy(() => import("~/md/icon-maker.md")),
   },
   {
     title: "Draw World",
