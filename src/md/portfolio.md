@@ -4,4 +4,4 @@
 
 ### Links
 
-- リポジトリ：[detteiu8383/portfolio](https://github.com/detteiu8383/portfolio)
+- リポジトリ：[eyemono-moe/portfolio](https://github.com/eyemono-moe/portfolio)
