@@ -7,6 +7,18 @@ export const SITE_URL = "https://www.eyemono.moe/";
 
 export const WORKS = [
   {
+    title: "ポケットサイン受付",
+    imagePath: "/work-thumbnail/pocketsign-reception.webp",
+    tags: ["WebApp", "React", "TypeScript"],
+    mdx: lazy(() => import("~/md/pocketsign-reception.md")),
+  },
+  {
+    title: "陸羽東線周遊スタンプラリーアプリ",
+    imagePath: "/work-thumbnail/pocketsign-stamprally.webp",
+    tags: ["WebApp", "Nuxt", "TypeScript"],
+    mdx: lazy(() => import("~/md/pocketsign-stamprally.md")),
+  },
+  {
     title: "アイコンメーカー",
     imagePath: "/work-thumbnail/icon-maker.webp",
     tags: ["WebApp", "Solid.js", "TypeScript"],
