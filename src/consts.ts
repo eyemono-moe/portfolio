@@ -7,6 +7,12 @@ export const SITE_URL = "https://www.eyemono.moe/";
 
 export const WORKS = [
   {
+    title: "Game³ホームページ",
+    imagePath: "/work-thumbnail/game3.webp",
+    tags: ["WebApp", "Nuxt", "TypeScript"],
+    mdx: lazy(() => import("~/md/game3.md")),
+  },
+  {
     title: "ポケットサイン受付",
     imagePath: "/work-thumbnail/pocketsign-reception.webp",
     tags: ["WebApp", "React", "TypeScript"],
