@@ -24,7 +24,7 @@ export default function Top() {
           <li class="w-fit">
             <a
               class="parent relative"
-              href="https://trap.jp/author/d_etteiu8383/"
+              href="https://log.eyemono.moe"
               target="_blank"
               rel="noopener noreferrer"
             >
