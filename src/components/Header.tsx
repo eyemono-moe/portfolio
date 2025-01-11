@@ -40,7 +40,7 @@ const Header: Component = () => {
           <li class="relative">
             <a
               class="after:(absolute bottom-0 left-0 block h-2px w-full origin-center scale-0 bg-text-black transition-transform-100 content-[''] hover:scale-50) label block flex w-a justify-center px-2 pt-2 pb-1 font-bold md:w-6ch"
-              href="https://trap.jp/author/d_etteiu8383/"
+              href="https://log.eyemono.moe"
               target="_blank"
               rel="noopener noreferrer"
             >
