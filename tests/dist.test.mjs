@@ -70,3 +70,44 @@ test("work links open in new tab", () => {
     assert.ok(tag.includes('rel="noopener noreferrer"'), tag);
   }
 });
+
+test("hero shows profile", () => {
+  const html = read("index.html");
+  for (const text of [
+    "Web Engineer",
+    "2025.4 -",
+    "ポケットサイン株式会社",
+    "2023.4 - 2025.3",
+    "東京工業大学 修士課程（退学）",
+    "TypeScript",
+    "Solid.js",
+    "React",
+    "Vue",
+    "Go",
+    "Node.js",
+    "Python",
+  ]) {
+    assert.ok(html.includes(text), text);
+  }
+  assert.match(html, /<rt[^>]*>アイモノ<\/rt>/);
+  assert.match(html, /<rt[^>]*>モエ<\/rt>/);
+  assert.ok(!html.includes("正社員"));
+  assert.ok(!html.includes("フロントエンドエンジニア"));
+});
+
+test("hero has works button", () => {
+  const tags = anchorsTo(read("index.html"), "#works");
+  assert.ok(tags.some((tag) => tag.includes('class="to-works"')));
+});
+
+test("hero links", () => {
+  const html = read("index.html");
+  for (const href of [
+    "https://card.eyemono.moe",
+    "https://x.com/eyemono_moe",
+  ]) {
+    const tags = anchorsTo(html, href);
+    assert.ok(tags.length > 0, href);
+    for (const tag of tags) assert.ok(tag.includes('target="_blank"'), tag);
+  }
+});
