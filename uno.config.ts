@@ -1,10 +1,10 @@
-import transformerVariantGroup from "@unocss/transformer-variant-group";
+import presetWind3 from "@unocss/preset-wind3";
 import {
   defineConfig,
   presetIcons,
   presetTypography,
-  presetUno,
   presetWebFonts,
+  transformerVariantGroup,
 } from "unocss";
 
 const black = "#191E1E";
@@ -15,7 +15,7 @@ const pink = "#FF33B7";
 
 export default defineConfig({
   presets: [
-    presetUno(),
+    presetWind3(),
     presetIcons(),
     presetWebFonts({
       provider: "google",

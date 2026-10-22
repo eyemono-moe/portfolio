@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-SiteMap: https://eyemono.moe/sitemap.xml
+Sitemap: https://eyemono.moe/sitemap-index.xml

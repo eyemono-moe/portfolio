@@ -1,12 +1,7 @@
-
-dist
-.solid
-.output
-.vercel
-.netlify
-netlify
-.output
-.vinxi
+# build output
+dist/
+.astro/
+.vercel/
 
 # dependencies
 /node_modules
@@ -19,8 +14,8 @@ netlify
 .settings/
 .vscode
 
-# Temp
-gitignore
+# local brainstorming / agent workspace
+.superpowers/
 
 # System Files
 .DS_Store

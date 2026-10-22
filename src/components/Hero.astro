@@ -1,0 +1,220 @@
+---
+import icon from "~/assets/icon-blink.svg";
+import { CAREER, LINKS, SKILLS } from "~/consts";
+---
+
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="name">
+      <img class="icon" src={icon.src} alt="eyemono.moe のアイコン" />
+      <h1>
+        <ruby>eyemono<rt>アイモノ</rt></ruby>.<ruby>moe<rt>モエ</rt></ruby>
+      </h1>
+    </div>
+    <div class="role">Web Engineer</div>
+    <p class="intro">
+      Web フロントと 3DCG に興味があります。<br />かわいくてかっこいいものが好きです。
+    </p>
+    <div class="blk">
+      <h2>Career</h2>
+      <ul class="tl">
+        {
+          CAREER.map(({ period, text }) => (
+            <li>
+              <b>{period}</b>
+              {text}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="blk">
+      <h2>Skills</h2>
+      <ul class="chips">
+        {SKILLS.map((skill) => <li class="chip">{skill}</li>)}
+      </ul>
+    </div>
+    <div class="blk links">
+      {
+        LINKS.map(({ label, href }) => (
+          <a href={href} target="_blank" rel="noopener noreferrer">
+            {label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+  <a class="to-works" href="#works">
+    Works を見る <span class="arrow" aria-hidden="true">↓</span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 40px 16px 96px max(16px, 6vw);
+  }
+  .hero-inner {
+    max-width: min(520px, 44vw);
+  }
+  h1 {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  h1 rt {
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .name {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .icon {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    flex: none;
+  }
+  .role {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .intro {
+    margin-top: 10px;
+    font-size: 15px;
+  }
+  .blk {
+    margin-top: 20px;
+  }
+  .blk h2 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #3d4a4a;
+    margin-bottom: 4px;
+  }
+  .tl {
+    list-style: none;
+    border-left: 3px solid #191e1e;
+    padding-left: 12px;
+    font-size: 15px;
+  }
+  .tl b {
+    display: inline-block;
+    width: 132px;
+    font-weight: 700;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+  }
+  .chip {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 1px 10px;
+    border: 2px solid #191e1e;
+    border-radius: 999px;
+    background: #fff;
+  }
+  .links {
+    display: flex;
+    gap: 18px;
+    font-weight: 700;
+  }
+  .links a {
+    border-bottom: 2px solid #191e1e;
+  }
+  .to-works {
+    position: absolute;
+    left: max(16px, 6vw);
+    bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px 10px 22px;
+    border: 2px solid #191e1e;
+    border-radius: 999px;
+    background: #fff;
+    color: #191e1e;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.06em;
+    box-shadow: 4px 4px 0 #191e1e;
+    transition:
+      transform 0.12s,
+      box-shadow 0.12s,
+      background-color 0.12s;
+  }
+  .to-works:hover {
+    background: #191e1e;
+    color: #fff;
+  }
+  .to-works:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 #191e1e;
+  }
+  .arrow {
+    display: inline-block;
+    animation: bob 1.6s ease-in-out infinite;
+  }
+  @keyframes bob {
+    50% {
+      transform: translateY(4px);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero {
+      padding: 72px 16px 96px;
+    }
+    .hero-inner {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 420px;
+    }
+    .name {
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+    .icon {
+      width: min(44vw, 180px);
+      height: auto;
+      aspect-ratio: 1;
+      border-width: 4px;
+    }
+    .role,
+    .intro {
+      text-align: center;
+    }
+    .links {
+      justify-content: center;
+    }
+    /* 期間と所属を横に並べると折り返して読みにくいので縦に積む */
+    .tl b {
+      display: block;
+      width: auto;
+    }
+    .tl li + li {
+      margin-top: 4px;
+    }
+    .to-works {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .to-works:active {
+      transform: translate(calc(-50% + 4px), 4px);
+    }
+  }
+</style>

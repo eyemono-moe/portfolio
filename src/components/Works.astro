@@ -1,0 +1,26 @@
+---
+import { getCollection } from "astro:content";
+import WorkCard from "./WorkCard.astro";
+
+const works = (await getCollection("works")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<section class="works" id="works">
+  <h2>Works</h2>
+  {works.map((work) => <WorkCard work={work} />)}
+</section>
+
+<style>
+  .works {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: calc(var(--hdr-l) + 56px) 16px 64px;
+  }
+  h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+</style>

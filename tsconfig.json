@@ -1,19 +1,10 @@
 {
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"],
   "compilerOptions": {
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "noEmit": true,
     "paths": {
       "~/*": ["./src/*"]
-    },
-    "strict": true,
-    "target": "ESNext",
-    "types": ["vinxi/client"]
+    }
   }
 }
