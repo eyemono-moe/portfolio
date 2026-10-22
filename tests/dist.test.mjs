@@ -111,3 +111,31 @@ test("hero links", () => {
     for (const tag of tags) assert.ok(tag.includes('target="_blank"'), tag);
   }
 });
+
+test("body starts as hero and inline script switches to init", () => {
+  const html = read("index.html");
+  const body = html.match(/<body\b[^>]*>/)?.[0] ?? "";
+  assert.ok(body.includes('data-state="hero"'), body);
+  const afterBody = html.slice(html.indexOf(body) + body.length);
+  const firstScript = afterBody.match(
+    /^\s*<script\b[^>]*>([\s\S]*?)<\/script>/,
+  );
+  assert.ok(firstScript, "inline script right after <body>");
+  assert.match(firstScript[1], /dataset\.state\s*=\s*["']init["']/);
+});
+
+test("stage layers exist", () => {
+  const html = read("index.html");
+  for (const cls of ["bgimg", "band", "chara", "band-front"]) {
+    assert.match(html, new RegExp(`class="${cls}"`), cls);
+  }
+});
+
+test("nav matches NAV", () => {
+  const html = read("index.html");
+  const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0] ?? "";
+  const hrefs = [...header.matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
+  assert.deepEqual(hrefs, ["/#top", "/#works", "https://log.eyemono.moe"]);
+  const blog = anchorsTo(header, "https://log.eyemono.moe")[0] ?? "";
+  assert.ok(blog.includes('target="_blank"'), blog);
+});

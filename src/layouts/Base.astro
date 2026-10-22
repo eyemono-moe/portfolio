@@ -1,5 +1,8 @@
 ---
+import Header from "~/components/Header.astro";
+import Stage from "~/components/Stage.astro";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "~/consts";
+import "~/styles/stage.css";
 
 interface Props {
   title?: string;
@@ -35,7 +38,14 @@ const pageTitle = title ? `${SITE_TITLE} - ${title}` : SITE_TITLE;
     <meta name="twitter:description" content={SITE_DESCRIPTION} />
     <meta name="twitter:image" content="https://eyemono.moe/OGP.webp" />
   </head>
-  <body class="font-sans text-text-black">
+  <body class="font-sans text-text-black" data-state="hero">
+    <script is:inline>
+      // JS が動くときだけ入場アニメーションの初期状態にする（JS なしでは hero のまま読める）
+      document.body.dataset.state = "init";
+      document.documentElement.classList.add("js");
+    </script>
+    <Stage />
+    <Header />
     <main>
       <slot />
     </main>

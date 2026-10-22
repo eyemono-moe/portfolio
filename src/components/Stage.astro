@@ -1,0 +1,51 @@
+<div class="bgimg"></div>
+<div class="band"></div>
+<div class="chara"></div>
+<div class="band-front"></div>
+
+<script>
+  // ヒーローの下端が画面の上半分まで来たら content に切り替える
+  // （旧サイトの pathname → data-state と同じ発想。ヒーローが画面より高くても動くようスクロール位置で判定）
+  const body = document.body;
+  const hero = document.getElementById("top");
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>(
+    ".site-header a[data-section]",
+  );
+  let started = false;
+
+  const update = () => {
+    if (!started) return;
+    // ヒーローの無いページ（404 など）は最初からヘッダー表示
+    const state =
+      hero && hero.getBoundingClientRect().bottom > innerHeight * 0.5
+        ? "hero"
+        : "content";
+    body.dataset.state = state;
+    for (const a of navLinks) {
+      a.classList.toggle(
+        "active",
+        !!hero && a.dataset.section === (state === "hero" ? "#top" : "#works"),
+      );
+    }
+  };
+
+  // 読み込み直後は init のまま 1 フレーム描画し、その後で本来の state に遷移させて入場アニメーションを出す
+  requestAnimationFrame(() =>
+    setTimeout(() => {
+      started = true;
+      update();
+    }, 120),
+  );
+  addEventListener("scroll", update, { passive: true });
+  addEventListener("resize", update);
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) e.target.classList.add("in");
+      }
+    },
+    { threshold: 0.15 },
+  );
+  for (const w of document.querySelectorAll(".work")) io.observe(w);
+</script>

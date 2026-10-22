@@ -16,7 +16,7 @@ const works = (await getCollection("works")).sort(
   .works {
     max-width: 1024px;
     margin: 0 auto;
-    padding: 64px 16px;
+    padding: calc(var(--hdr-l) + 56px) 16px 64px;
   }
   h2 {
     font-size: 36px;

@@ -4,8 +4,8 @@ export const SITE_DESCRIPTION =
 export const SITE_URL = "https://eyemono.moe/";
 
 export const NAV: { label: string; href: string; external?: boolean }[] = [
-  { label: "Top", href: "#top" },
-  { label: "Works", href: "#works" },
+  { label: "Top", href: "/#top" },
+  { label: "Works", href: "/#works" },
   { label: "Blog", href: "https://log.eyemono.moe", external: true },
 ];
 

@@ -1,0 +1,222 @@
+/*
+ * 帯・キャラ・背景・ヘッダーの演出。
+ * body[data-state] = init | hero | content を Stage.astro の script が切り替え、CSS transition で動かす。
+ */
+
+:root {
+  --ease: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* 帯は clip-path の四角形で描く（頂点：左上・右上・右下・左下）。
+     ヘッダー形状では、帯の下端が「ナビの右端（Blog）の右下」を通る 5° の直線になるようにする。
+     ナビの寸法を変数で固定し、Blog の右下座標 (--nav-x, --nav-y) を CSS だけで求める。
+     右側は画面の上にはみ出してよい（はみ出した部分は画面外なので見えない） */
+  --nav-pad: 16px;
+  --nav-item-w: 80px;
+  --nav-item-h: 40px;
+  --nav-gap: 48px;
+  --nav-count: 3;
+  --nav-x: calc(
+    var(--nav-pad) +
+    var(--nav-count) *
+    var(--nav-item-w) +
+    (var(--nav-count) - 1) *
+    var(--nav-gap) +
+    12px
+  );
+  --nav-y: calc(var(--nav-item-h) + 8px);
+  --tan: 0.0875;
+  --hdr-l: calc(var(--nav-y) + var(--nav-x) * var(--tan));
+  --hdr-r: calc(var(--nav-y) - (100vw - var(--nav-x)) * var(--tan));
+  --band-header: polygon(0 0, 100% 0, 100% var(--hdr-r), 0 var(--hdr-l));
+}
+
+@media (max-width: 400px) {
+  :root {
+    --nav-gap: 16px;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background: #fff;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ---- 背景レイヤー ---- */
+.band {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: #c8ff33;
+  transition: clip-path 0.6s var(--ease);
+}
+.chara,
+.bgimg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-repeat: no-repeat;
+  background-size: auto calc(100% + 120px);
+  transition:
+    background-position 0.6s var(--ease),
+    opacity 0.6s var(--ease);
+  pointer-events: none;
+}
+.chara {
+  background-image: url(/background/chara.webp);
+}
+.bgimg {
+  background-image: url(/background/bg.webp);
+  z-index: -3;
+}
+
+/* 読み込み直後：帯は幅0、キャラは画面外 */
+body[data-state="init"] .band {
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+}
+body[data-state="init"] .chara {
+  background-position: right -999px bottom -180px;
+}
+body[data-state="init"] .bgimg {
+  opacity: 0;
+  background-position: right calc(25% - 200px) bottom -180px;
+}
+/* ヒーロー（旧トップと同じ配置） */
+body[data-state="hero"] .band {
+  clip-path: polygon(0 0, 50% 0, calc(50% - 17.6vh) 100%, 0 100%);
+}
+body[data-state="hero"] .chara {
+  background-position: right calc(25% - 200px) bottom -180px;
+}
+body[data-state="hero"] .bgimg {
+  opacity: 1;
+  background-position: right calc(25% - 200px) bottom -180px;
+}
+/* スクロール後（旧 Works ページと同じ配置：帯は斜めのヘッダーに、キャラは画面外へ） */
+body[data-state="content"] .band {
+  clip-path: var(--band-header);
+}
+body[data-state="content"] .chara {
+  background-position: right -999px bottom -180px;
+}
+body[data-state="content"] .bgimg {
+  opacity: 0.2;
+  background-position: left calc(80% + 400px) bottom -180px;
+}
+
+/* 帯の変形が終わったら、同じ形の帯をコンテンツの手前に重ねてヘッダーの座布団にする */
+.band-front {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.12));
+}
+.band-front::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #c8ff33;
+  clip-path: var(--band-header);
+}
+body[data-state="content"] .band-front {
+  opacity: 1;
+  transition: opacity 0.2s 0.55s;
+}
+
+/* ---- ヘッダー：ヒーローでは隠れていて、スクロールすると降りてくる ---- */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 0 var(--nav-pad);
+  transition: top 0.25s var(--ease);
+}
+body:not([data-state="content"]) .site-header {
+  top: -120px;
+}
+
+/* ---- ヒーローの入場アニメーション ---- */
+.hero-inner > * {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition:
+    opacity 0.5s var(--ease),
+    transform 0.5s var(--ease);
+}
+body:not([data-state="init"]) .hero-inner > * {
+  opacity: 1;
+  transform: none;
+}
+.hero-inner > :nth-child(2) {
+  transition-delay: 0.08s;
+}
+.hero-inner > :nth-child(3) {
+  transition-delay: 0.16s;
+}
+.hero-inner > :nth-child(4) {
+  transition-delay: 0.24s;
+}
+.hero-inner > :nth-child(5) {
+  transition-delay: 0.32s;
+}
+.hero-inner > :nth-child(6) {
+  transition-delay: 0.4s;
+}
+
+/* ---- Works：画面に入ったらふわっと表示（JS があるときだけ隠す） ---- */
+.js .work {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.5s var(--ease),
+    transform 0.5s var(--ease);
+}
+.js .work.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* 768〜1100px：テキスト（右端 ≒ 50vw）にキャラが被らないよう、キャラの左端（画像の約34%地点）を 50vw より右に置く */
+@media (min-width: 768px) and (max-width: 1100px) {
+  body[data-state="hero"] .chara {
+    background-position: left calc(50vw + 16px - (100vh + 120px) * 0.4) bottom
+      -180px;
+  }
+}
+
+@media (max-width: 767px) {
+  body[data-state="hero"] .band {
+    clip-path: polygon(0 0, 100% 0, 100% calc(300px - 8.75vw), 0 300px);
+  }
+  /* 狭い幅ではキャラを出さない（キャラは Works の新勧イラストで見せる） */
+  .chara {
+    display: none;
+  }
+  /* 帯が上にある状態では背景を薄く（帯の切り替えと判定を揃える） */
+  body[data-state="hero"] .bgimg {
+    opacity: 0.2;
+    background-position: left calc(80% + 400px) bottom -180px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    /* biome-ignore lint/complexity/noImportantStyles: reduced motion must override every component transition */
+    transition: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: reduced motion must override every component animation */
+    animation: none !important;
+  }
+}

@@ -1,0 +1,64 @@
+---
+import { NAV } from "~/consts";
+---
+
+<header class="site-header">
+  <nav>
+    <ul>
+      {
+        NAV.map(({ label, href, external }) =>
+          external ? (
+            <li>
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {label}
+              </a>
+            </li>
+          ) : (
+            <li>
+              <a href={href} data-section={href.replace("/", "")}>
+                {label}
+              </a>
+            </li>
+          ),
+        )
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  ul {
+    display: flex;
+    gap: var(--nav-gap);
+    list-style: none;
+  }
+  a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--nav-item-w);
+    height: var(--nav-item-h);
+    padding-top: 4px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1;
+  }
+  a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: #191e1e;
+    transform: scaleX(0);
+    transition: transform 0.1s;
+  }
+  a:hover::after {
+    transform: scaleX(0.5);
+  }
+  a.active::after {
+    transform: scaleX(1);
+  }
+</style>

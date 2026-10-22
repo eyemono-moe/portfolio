@@ -201,6 +201,14 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
     .links {
       justify-content: center;
     }
+    /* 期間と所属を横に並べると折り返して読みにくいので縦に積む */
+    .tl b {
+      display: block;
+      width: auto;
+    }
+    .tl li + li {
+      margin-top: 4px;
+    }
     .to-works {
       left: 50%;
       transform: translateX(-50%);
