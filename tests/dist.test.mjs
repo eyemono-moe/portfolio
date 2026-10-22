@@ -33,8 +33,10 @@ test("sitemap and static files exist", () => {
   }
 });
 
-test("404 page exists", () => {
-  assert.ok(read("404.html").includes("Page Not Found"));
+test("404 page replaces location with top", () => {
+  const html = read("404.html");
+  assert.match(html, /location\.replace\(["']\/["']\)/);
+  assert.ok(html.includes('href="/"'));
 });
 
 const anchorsTo = (html, href) =>
@@ -92,6 +94,7 @@ test("hero shows profile", () => {
   assert.match(html, /<rt[^>]*>アイモノ<\/rt>/);
   assert.match(html, /<rt[^>]*>モエ<\/rt>/);
   assert.ok(!html.includes("正社員"));
+  assert.ok(!html.includes("業務委託"));
   assert.ok(!html.includes("フロントエンドエンジニア"));
 });
 
@@ -172,6 +175,11 @@ test("smooth scrolling is not applied to the initial hash jump", () => {
   const css = readRepo("src/styles/stage.css");
   assert.ok(!/(^|\})\s*html\s*\{[^}]*scroll-behavior:\s*smooth/.test(css));
   assert.match(css, /html\.smooth\s*\{[^}]*scroll-behavior:\s*smooth/);
+});
+
+test("hero fits small viewports", () => {
+  const hero = readRepo("src/components/Hero.astro");
+  assert.match(hero, /min-height:\s*100svh/);
 });
 
 test("hidden header becomes visible on keyboard focus", () => {

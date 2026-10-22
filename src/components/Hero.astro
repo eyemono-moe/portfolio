@@ -53,6 +53,7 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
   .hero {
     position: relative;
     min-height: 100vh;
+    min-height: 100svh;
     display: flex;
     align-items: center;
     padding: 40px 16px 96px max(16px, 6vw);
@@ -175,8 +176,30 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
   }
 
   @media (max-width: 767px) {
+    /* ボタンも流れに入れて縦中央に積み、アドレスバーの分は svh で除く */
     .hero {
-      padding: 72px 16px 96px;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 16px 24px;
+    }
+    h1 {
+      font-size: 32px;
+    }
+    h1 rt {
+      font-size: 11px;
+    }
+    .intro {
+      margin-top: 6px;
+      font-size: 14px;
+    }
+    .blk {
+      margin-top: 14px;
+    }
+    .tl {
+      font-size: 14px;
+    }
+    .tl b {
+      width: 8.4em;
     }
     .hero-inner {
       margin: 0 auto;
@@ -189,7 +212,7 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
       text-align: center;
     }
     .icon {
-      width: min(44vw, 180px);
+      width: min(30vw, 120px);
       height: auto;
       aspect-ratio: 1;
       border-width: 4px;
@@ -201,20 +224,19 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
     .links {
       justify-content: center;
     }
-    /* 期間と所属を横に並べると折り返して読みにくいので縦に積む */
+    .to-works {
+      position: static;
+      margin-top: 20px;
+    }
+  }
+  /* ごく狭い幅では期間と所属を横に並べると途中で折り返すので縦に積む */
+  @media (max-width: 359px) {
     .tl b {
       display: block;
       width: auto;
     }
     .tl li + li {
       margin-top: 4px;
-    }
-    .to-works {
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .to-works:active {
-      transform: translate(calc(-50% + 4px), 4px);
     }
   }
 </style>

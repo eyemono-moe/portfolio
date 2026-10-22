@@ -11,7 +11,6 @@ export const NAV: { label: string; href: string; external?: boolean }[] = [
 
 export const CAREER: { period: string; text: string }[] = [
   { period: "2025.4 -", text: "ポケットサイン株式会社" },
-  { period: "2023.8 - 2025.3", text: "同社 業務委託エンジニア" },
   { period: "2023.4 - 2025.3", text: "東京工業大学 修士課程（退学）" },
   { period: "2019.4 - 2023.3", text: "東京工業大学 生命理工学院" },
 ];
