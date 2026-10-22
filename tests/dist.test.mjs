@@ -139,3 +139,24 @@ test("nav matches NAV", () => {
   const blog = anchorsTo(header, "https://log.eyemono.moe")[0] ?? "";
   assert.ok(blog.includes('target="_blank"'), blog);
 });
+
+const readRepo = (path) =>
+  readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
+
+test("footer shows build year", () => {
+  const html = read("index.html");
+  assert.ok(html.includes(`© ${new Date().getFullYear()} eyemono.moe`));
+  assert.ok(html.includes("https://github.com/eyemono-moe/portfolio"));
+});
+
+test("ci has no vercel deploy", () => {
+  const ci = readRepo(".github/workflows/ci.yaml");
+  assert.ok(!ci.includes("vercel"));
+  assert.ok(!ci.includes("deploy"));
+});
+
+test("vercel git deploy enabled", () => {
+  const path = new URL("../vercel.json", import.meta.url);
+  if (!existsSync(path)) return;
+  assert.ok(!readFileSync(path, "utf8").includes("deploymentEnabled"));
+});

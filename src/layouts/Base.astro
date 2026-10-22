@@ -1,4 +1,5 @@
 ---
+import Footer from "~/components/Footer.astro";
 import Header from "~/components/Header.astro";
 import Stage from "~/components/Stage.astro";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "~/consts";
@@ -49,5 +50,6 @@ const pageTitle = title ? `${SITE_TITLE} - ${title}` : SITE_TITLE;
     <main>
       <slot />
     </main>
+    <Footer />
   </body>
 </html>
