@@ -160,3 +160,21 @@ test("vercel git deploy enabled", () => {
   if (!existsSync(path)) return;
   assert.ok(!readFileSync(path, "utf8").includes("deploymentEnabled"));
 });
+
+test("robots.txt points to the generated sitemap", () => {
+  const robots = read("robots.txt");
+  const url = robots.match(/^sitemap:\s*(\S+)/im)?.[1] ?? "";
+  assert.ok(url.startsWith("https://eyemono.moe/"), url);
+  assert.ok(existsSync(dist(url.replace("https://eyemono.moe/", ""))), url);
+});
+
+test("smooth scrolling is not applied to the initial hash jump", () => {
+  const css = readRepo("src/styles/stage.css");
+  assert.ok(!/(^|\})\s*html\s*\{[^}]*scroll-behavior:\s*smooth/.test(css));
+  assert.match(css, /html\.smooth\s*\{[^}]*scroll-behavior:\s*smooth/);
+});
+
+test("hidden header becomes visible on keyboard focus", () => {
+  const css = readRepo("src/styles/stage.css");
+  assert.match(css, /body \.site-header:focus-within\s*\{[^}]*top:\s*0/);
+});

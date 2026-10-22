@@ -36,6 +36,9 @@
       update();
     }, 120),
   );
+  addEventListener("load", () =>
+    requestAnimationFrame(() => document.documentElement.classList.add("smooth")),
+  );
   addEventListener("scroll", update, { passive: true });
   addEventListener("resize", update);
 

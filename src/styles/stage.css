@@ -36,7 +36,8 @@
   }
 }
 
-html {
+/* 読み込み時の #works へのジャンプは瞬時に。落ち着いてから Stage.astro が .smooth を付ける */
+html.smooth {
   scroll-behavior: smooth;
 }
 body {
@@ -142,6 +143,10 @@ body[data-state="content"] .band-front {
 body:not([data-state="content"]) .site-header {
   top: -120px;
 }
+/* キーボード操作で隠れたナビにフォーカスが来たら見えるようにする */
+body .site-header:focus-within {
+  top: 0;
+}
 
 /* ---- ヒーローの入場アニメーション ---- */
 .hero-inner > * {
@@ -208,7 +213,7 @@ body:not([data-state="init"]) .hero-inner > * {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
+  html.smooth {
     scroll-behavior: auto;
   }
   *,
