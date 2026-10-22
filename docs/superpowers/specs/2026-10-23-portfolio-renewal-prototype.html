@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eyemono.moe prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#191E1E; --gray:#788787; --border:#526060; --green:#C8FF33; --purple:#CC33FF; --pink:#FF33B7; --link:#0017C1; --ease:cubic-bezier(.65,0,.35,1); }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { font-family:"Noto Sans JP",sans-serif; color:var(--black); background:#fff; line-height:1.7; overflow-x:hidden; }
+  a { color:inherit; }
+
+  /* ---- 背景レイヤー：旧サイトの BgImages と Header の帯を再構成 ---- */
+  /* 帯は clip-path の四角形で描く（頂点：左上・右上・右下・左下）。
+     ヘッダー形状では、帯の下端が「ナビの右端（Blog）の右下」を通る 5° の直線になるようにする。
+     ナビの寸法を変数で固定し、Blog の右下座標 (--nav-x, --nav-y) を CSS だけで求める。
+     右側は画面の上にはみ出してよい（はみ出した部分は画面外なので見えない） */
+  :root { --nav-pad:16px; --nav-item-w:80px; --nav-item-h:40px; --nav-gap:48px; --nav-count:3;
+    --nav-x:calc(var(--nav-pad) + var(--nav-count) * var(--nav-item-w) + (var(--nav-count) - 1) * var(--nav-gap) + 12px);
+    --nav-y:calc(var(--nav-item-h) + 8px);
+    --tan:0.0875;
+    --hdr-l:calc(var(--nav-y) + var(--nav-x) * var(--tan));
+    --hdr-r:calc(var(--nav-y) - (100vw - var(--nav-x)) * var(--tan));
+    --band-header:polygon(0 0, 100% 0, 100% var(--hdr-r), 0 var(--hdr-l)); }
+  .band { position:fixed; inset:0; z-index:-2; background:var(--green); transition:clip-path .6s var(--ease); }
+  .chara, .bgimg { position:fixed; inset:0; z-index:-1; background-repeat:no-repeat; background-size:auto calc(100% + 120px);
+    transition:background-position .6s var(--ease), opacity .6s var(--ease); pointer-events:none; }
+  .chara { background-image:url(/files/chara.webp); }
+  .bgimg { background-image:url(/files/bg.webp); z-index:-3; }
+
+  /* 読み込み直後：帯は幅0、キャラは画面外 */
+  body[data-state=init] .band { clip-path:polygon(0 0, 0 0, 0 100%, 0 100%); }
+  body[data-state=init] .chara { background-position:right -999px bottom -180px; }
+  body[data-state=init] .bgimg { opacity:0; background-position:right calc(25% - 200px) bottom -180px; }
+  /* ヒーロー（旧トップと同じ配置） */
+  body[data-state=hero] .band { clip-path:polygon(0 0, 50% 0, calc(50% - 17.6vh) 100%, 0 100%); }
+  body[data-state=hero] .chara { background-position:right calc(25% - 200px) bottom -180px; }
+  body[data-state=hero] .bgimg { opacity:1; background-position:right calc(25% - 200px) bottom -180px; }
+  /* スクロール後（旧 Works ページと同じ配置：帯は斜めのヘッダーに、キャラは画面外へ） */
+  body[data-state=content] .band { clip-path:var(--band-header); }
+  body[data-state=content] .chara { background-position:right -999px bottom -180px; }
+  body[data-state=content] .bgimg { opacity:.2; background-position:left calc(80% + 400px) bottom -180px; }
+
+  /* 帯の変形が終わったら、同じ形の帯をコンテンツの手前に重ねてヘッダーの座布団にする */
+  .band-front { position:fixed; inset:0; z-index:9; pointer-events:none; opacity:0; transition:opacity .15s;
+    filter:drop-shadow(0 3px 6px rgba(0,0,0,.12)); }
+  .band-front::before { content:""; position:absolute; inset:0; background:var(--green); clip-path:var(--band-header); }
+  body[data-state=content] .band-front { opacity:1; transition:opacity .2s .55s; }
+
+  /* ---- ヘッダー：ヒーローでは隠れていて、スクロールすると降りてくる ---- */
+  header { position:fixed; top:0; left:0; right:0; z-index:10; padding:0 var(--nav-pad); transition:top .25s var(--ease); }
+  body:not([data-state=content]) header { top:-120px; }
+  header ul { display:flex; gap:var(--nav-gap); list-style:none; }
+  header a { position:relative; display:flex; align-items:center; justify-content:center; width:var(--nav-item-w); height:var(--nav-item-h); padding-top:4px; font-weight:700; font-size:18px; line-height:1; text-decoration:none; }
+  header a::after { content:""; position:absolute; left:0; bottom:0; height:2px; width:100%; background:var(--black); transform:scaleX(0); transition:transform .1s; }
+  header a:hover::after { transform:scaleX(.5); }
+  header a.active::after { transform:scaleX(1); }
+
+  /* ---- ヒーロー ---- */
+  .hero { min-height:100vh; display:flex; align-items:center; padding:40px 16px 40px max(16px, 6vw); }
+  .hero-inner { max-width:min(520px, 44vw); }
+  .hero > .hero-inner > * { opacity:0; transform:translateX(-24px); transition:opacity .5s var(--ease), transform .5s var(--ease); }
+  body:not([data-state=init]) .hero > .hero-inner > * { opacity:1; transform:none; }
+  .hero > .hero-inner > *:nth-child(2) { transition-delay:.08s } .hero > .hero-inner > *:nth-child(3) { transition-delay:.16s }
+  .hero > .hero-inner > *:nth-child(4) { transition-delay:.24s } .hero > .hero-inner > *:nth-child(5) { transition-delay:.32s }
+  .hero > .hero-inner > *:nth-child(6) { transition-delay:.40s }
+  h1 { font-size:40px; line-height:1.4; }
+  .name { display:flex; align-items:center; gap:16px; }
+  .icon { width:88px; height:88px; border-radius:50%; border:3px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,.15); flex:none; }
+  h1 rt { font-size:13px; font-weight:400; }
+  .role { font-size:20px; font-weight:700; margin-top:4px; }
+  .role small { display:block; font-size:15px; font-weight:400; }
+  .intro { margin-top:10px; font-size:15px; }
+  .blk { margin-top:20px; }
+  .blk h2 { font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:#3d4a4a; margin-bottom:4px; }
+  .tl { list-style:none; border-left:3px solid var(--black); padding-left:12px; font-size:15px; }
+  .tl b { display:inline-block; width:132px; font-weight:700; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .chip { font-size:14px; font-weight:700; padding:1px 10px; border:2px solid var(--black); border-radius:999px; background:#fff; }
+  .chip.sub { font-weight:400; border-width:1px; }
+  .links { display:flex; gap:18px; font-weight:700; }
+  .links a { text-decoration:none; border-bottom:2px solid var(--black); }
+  .to-works { position:absolute; left:max(16px, 6vw); bottom:24px; display:inline-flex; align-items:center; gap:10px;
+    padding:10px 20px 10px 22px; border:2px solid var(--black); border-radius:999px; background:#fff; color:var(--black);
+    font-weight:700; font-size:16px; letter-spacing:.06em; text-decoration:none; box-shadow:4px 4px 0 var(--black);
+    transition:transform .12s, box-shadow .12s, background-color .12s; }
+  .to-works:hover { background:var(--black); color:#fff; }
+  .to-works:active { transform:translate(4px,4px); box-shadow:0 0 0 var(--black); }
+  .to-works .arrow { display:inline-block; animation:bob 1.6s ease-in-out infinite; }
+  @keyframes bob { 50% { transform:translateY(4px) } }
+
+  /* ---- Works：折りたたまず全文表示 ---- */
+  .works { max-width:1024px; margin:0 auto; padding:calc(var(--hdr-l) + 56px) 16px 64px; }
+  .works > h2 { font-size:36px; margin-bottom:24px; }
+  .work { display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:28px; align-items:start; background:#fff; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,.12); padding:20px; margin-bottom:28px;
+    opacity:0; transform:translateY(24px); transition:opacity .5s var(--ease), transform .5s var(--ease); }
+  .work.in { opacity:1; transform:none; }
+  .work img { width:100%; aspect-ratio:16/10; object-fit:cover; border-radius:4px; background:#eee; }
+  .work h3 { font-size:24px; line-height:1.4; }
+  .tags { display:flex; gap:8px; list-style:none; color:var(--gray); font-size:14px; }
+  .tags li::before { content:"#"; }
+  .work p { margin:10px 0; font-size:15px; }
+  .work ul.wl { padding-left:1.2em; font-size:14px; }
+  .work ul.wl a { color:var(--link); }
+
+  footer { background:var(--black); color:#fff; padding:16px 40px; }
+
+  /* 768〜1100px：テキスト（右端 ≒ 50vw）にキャラが被らないよう、キャラの左端（画像の約34%地点）を 50vw より右に置く */
+  @media (min-width:768px) and (max-width:1100px) {
+    body[data-state=hero] .chara { background-position:left calc(50vw + 16px - (100vh + 120px) * 0.4) bottom -180px; }
+  }
+  @media (max-width:767px) {
+    body[data-state=hero] .band { clip-path:polygon(0 0, 100% 0, 100% calc(300px - 8.75vw), 0 300px); }
+    /* 狭い幅ではキャラを出さない（キャラは Works の新勧イラストで見せる） */
+    .chara { display:none; }
+    /* スマホ：アイコンを上に大きく、その下に紹介 */
+    .hero { padding-top:72px; }
+    .hero-inner { margin:0 auto; width:100%; max-width:420px; }
+    .name { flex-direction:column; gap:8px; text-align:center; }
+    .icon { width:min(44vw, 180px); height:auto; aspect-ratio:1; border-width:4px; }
+    .role, .intro { text-align:center; }
+    .links { justify-content:center; }
+    .hero { padding-bottom:96px; }
+    .to-works { left:50%; transform:translateX(-50%); }
+    .to-works:active { transform:translate(calc(-50% + 4px), 4px); }
+    /* 帯が上にある状態では背景を薄く（帯の切り替えと判定を揃える） */
+    body[data-state=hero] .bgimg { opacity:.2; background-position:left calc(80% + 400px) bottom -180px; }
+
+    .work { grid-template-columns:1fr; }
+  }
+  @media (prefers-reduced-motion:reduce) { * { transition:none !important; animation:none !important; } }
+</style>
+</head>
+<body data-state="init">
+  <div class="bgimg"></div><div class="band"></div><div class="chara"></div><div class="band-front"></div>
+
+  <header><nav><ul>
+    <li><a href="#top">Top</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="https://log.eyemono.moe" target="_blank" rel="noopener noreferrer">Blog</a></li>
+  </ul></nav></header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-inner">
+        <div class="name">
+          <img class="icon" src="/files/icon-blink.svg" alt="eyemono.moe のアイコン">
+          <h1><ruby>eyemono<rt>アイモノ</rt></ruby>.<ruby>moe<rt>モエ</rt></ruby></h1>
+        </div>
+        <div class="role">Web Engineer</div>
+        <p class="intro">Web フロントと 3DCG に興味があります。<br>かわいくてかっこいいものが好きです。</p>
+        <div class="blk"><h2>Career</h2>
+          <ul class="tl">
+            <li><b>2025.4 -</b>ポケットサイン株式会社</li>
+            <li><b>2023.8 - 2025.3</b>同社 業務委託エンジニア</li>
+            <li><b>2023.4 - 2025.3</b>東京工業大学 修士課程（退学）</li>
+            <li><b>2019.4 - 2023.3</b>東京工業大学 生命理工学院</li>
+          </ul>
+        </div>
+        <div class="blk"><h2>Skills</h2>
+          <div class="chips">
+            <span class="chip">TypeScript</span><span class="chip">Solid.js</span><span class="chip">React</span><span class="chip">Vue</span>
+            <span class="chip">Go</span><span class="chip">Node.js</span><span class="chip">Python</span>
+          </div>
+        </div>
+        <div class="blk links">
+          <a href="https://github.com/eyemono-moe">GitHub</a><a href="https://x.com/eyemono_moe">X</a><a href="https://log.eyemono.moe">Blog</a><a href="https://card.eyemono.moe">Card</a>
+        </div>
+      </div>
+      <a class="to-works" href="#works">Works を見る <span class="arrow" aria-hidden="true">↓</span></a>
+    </section>
+
+    <section class="works" id="works">
+      <h2>Works</h2>
+      <article class="work">
+        <img src="/files/streets.png" alt="Streets">
+        <div>
+          <h3>Streets</h3>
+          <ul class="tags"><li>WebApp</li><li>Solid.js</li><li>TypeScript</li><li>Nostr</li></ul>
+          <p>ブラウザで使える Nostr クライアントです。タイムラインや通知、検索結果をカラムにして並べられます。</p>
+          <ul class="wl"><li><a href="https://streets.eyemono.moe">streets.eyemono.moe</a></li><li>リポジトリ：<a href="https://github.com/eyemono-moe/streets">eyemono-moe/streets</a></li></ul>
+        </div>
+      </article>
+      <article class="work">
+        <img src="/files/neoshowcase.webp" alt="NeoShowcase">
+        <div>
+          <h3>NeoShowcase</h3>
+          <ul class="tags"><li>WebApp</li><li>Solid.js</li><li>TypeScript</li></ul>
+          <p>大学時代に所属していた創作サークル（traP）で運用されている PaaS 基盤です。メンバーが作った Web アプリを手軽に公開できます。フロントエンドの実装を担当しました。</p>
+          <ul class="wl"><li>紹介ブログ：<a href="https://trap.jp/post/2088/">2024年はSolid.jsを使いませんか？</a></li><li>リポジトリ：<a href="https://github.com/traPtitech/NeoShowcase">traPtitech/NeoShowcase</a></li><li>技育展2023 紹介スライド</li></ul>
+        </div>
+      </article>
+      <article class="work">
+        <img src="/files/game3.webp" alt="Game³">
+        <div>
+          <h3>Game³ホームページ</h3>
+          <ul class="tags"><li>WebApp</li><li>Nuxt</li><li>TypeScript</li></ul>
+          <p>大学の創作サークルが主催する、ゲーム制作者向けの展示・交流イベント「Game³」のホームページです。フロントエンドの実装を担当しました。</p>
+          <ul class="wl"><li><a href="https://game3.trap.games/">ゲーム制作者交流イベントGame³</a></li></ul>
+        </div>
+      </article>
+      <article class="work">
+        <img src="/files/shinkan-bira.webp" alt="新勧パンフレットイラスト">
+        <div>
+          <h3>新勧パンフレットイラスト</h3>
+          <ul class="tags"><li>Illust</li><li>Blender</li></ul>
+          <p>大学時代に所属していた創作サークルの、新入生勧誘パンフレット用イラストを Blender で作成しました。デザイン、レイアウト、タイポグラフィは他のサークルメンバーが担当しています。</p>
+          <ul class="wl"><li><a href="https://x.com/d_etteiu8383/status/1375953569111662595">イラスト紹介ポスト</a></li></ul>
+        </div>
+      </article>
+    </section>
+  </main>
+  <footer>© 2026 eyemono.moe</footer>
+
+<script>
+  // ヒーローが画面から外れたら data-state を切り替える（旧サイトの pathname → data-state と同じ発想）
+  const body = document.body;
+  requestAnimationFrame(() => setTimeout(() => (body.dataset.state = "hero"), 120));
+  // ヒーローの下端が画面の上半分まで来たら切り替え（ヒーローが画面より高くても動くようにスクロール位置で判定）
+  const hero = document.getElementById("top");
+  const update = () => {
+    if (body.dataset.state === "init") return;
+    body.dataset.state = hero.getBoundingClientRect().bottom > innerHeight * 0.5 ? "hero" : "content";
+    document.querySelectorAll("header a").forEach((a) =>
+      a.classList.toggle("active", a.getAttribute("href") === (body.dataset.state === "hero" ? "#top" : "#works")));
+  };
+  addEventListener("scroll", update, { passive: true });
+  addEventListener("resize", update);
+  setTimeout(update, 200);
+  const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("in")), { threshold: 0.15 });
+  document.querySelectorAll(".work").forEach((w) => io.observe(w));
+</script>
+</body>
+</html>
