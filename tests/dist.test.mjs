@@ -36,3 +36,37 @@ test("sitemap and static files exist", () => {
 test("404 page exists", () => {
   assert.ok(read("404.html").includes("Page Not Found"));
 });
+
+const anchorsTo = (html, href) =>
+  [...html.matchAll(/<a\b[^>]*>/g)]
+    .map((m) => m[0])
+    .filter((tag) => tag.includes(`href="${href}`));
+
+test("works lists 4 items in order", () => {
+  const html = read("index.html");
+  const titles = [...html.matchAll(/<h3[^>]*>([^<]*)<\/h3>/g)].map((m) =>
+    m[1].trim(),
+  );
+  assert.deepEqual(titles, [
+    "Streets",
+    "NeoShowcase",
+    "Game³ホームページ",
+    "新勧パンフレットイラスト",
+  ]);
+});
+
+test("works texts avoid bare circle names", () => {
+  const html = read("index.html");
+  assert.ok(html.includes("大学時代に所属していた創作サークル（traP）"));
+  assert.ok(html.includes("大学の創作サークルが主催する"));
+  assert.ok(!html.includes("サークル内で使用されている"));
+});
+
+test("work links open in new tab", () => {
+  const tags = anchorsTo(read("index.html"), "https://streets.eyemono.moe");
+  assert.ok(tags.length > 0);
+  for (const tag of tags) {
+    assert.ok(tag.includes('target="_blank"'), tag);
+    assert.ok(tag.includes('rel="noopener noreferrer"'), tag);
+  }
+});

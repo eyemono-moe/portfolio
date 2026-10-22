@@ -1,0 +1,83 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+
+interface Props {
+  work: CollectionEntry<"works">;
+}
+
+const { work } = Astro.props;
+const { Content } = await render(work);
+---
+
+<article class="work">
+  <img src={work.data.thumbnail} alt={work.data.title} loading="lazy" />
+  <div>
+    <h3>{work.data.title}</h3>
+    <ul class="tags">
+      {work.data.tags.map((tag) => <li>{tag}</li>)}
+    </ul>
+    <div class="body">
+      <Content />
+    </div>
+  </div>
+</article>
+
+<style>
+  .work {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 28px;
+    align-items: start;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    margin-bottom: 28px;
+  }
+  img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #eee;
+  }
+  h3 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    color: #788787;
+    font-size: 14px;
+  }
+  .tags li::before {
+    content: "#";
+  }
+  .body :global(p) {
+    margin: 10px 0;
+    font-size: 15px;
+  }
+  .body :global(ul) {
+    padding-left: 1.2em;
+    font-size: 14px;
+    list-style: disc;
+  }
+  .body :global(a) {
+    color: #0017c1;
+    text-decoration: underline;
+    overflow-wrap: anywhere;
+  }
+  .body :global(a:visited) {
+    color: #000082;
+  }
+  @media (max-width: 767px) {
+    .work {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
