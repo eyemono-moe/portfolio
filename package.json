@@ -1,33 +1,28 @@
 {
   "name": "portfolio",
   "scripts": {
-    "dev": "vinxi dev",
-    "build": "vinxi build",
-    "start": "vinxi start",
-    "version": "vinxi version",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
     "check": "biome check .",
-    "check:apply": "biome check --apply ."
+    "check:apply": "biome check --write .",
+    "test": "astro build && node --test 'tests/*.test.mjs'"
   },
   "type": "module",
   "devDependencies": {
-    "@biomejs/biome": "1.6.0",
-    "@iconify-json/ri": "^1.1.20",
-    "@unocss/transformer-variant-group": "^0.58.5",
-    "solid-jsx": "^1.1.4",
-    "unocss": "^0.58.5"
+    "@biomejs/biome": "^2.6.2",
+    "@iconify-json/ri": "^1.2.10",
+    "@unocss/astro": "^66.11.0",
+    "@unocss/preset-wind3": "^66.11.0",
+    "@unocss/reset": "^66.11.0",
+    "unocss": "^66.11.0"
   },
   "dependencies": {
-    "@mdx-js/rollup": "^3.0.1",
-    "@solid-primitives/resize-observer": "^2.0.25",
-    "@solidjs/meta": "^0.29.3",
-    "@solidjs/router": "^0.13.0",
-    "@solidjs/start": "^0.7.3",
-    "@unocss/reset": "^0.58.5",
-    "solid-js": "^1.8.15",
-    "vinxi": "^0.3.10"
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.4.2"
   },
   "engines": {
-    "node": "18.x"
+    "node": ">=24"
   },
-  "packageManager": "pnpm@8.6.0"
+  "packageManager": "pnpm@12.15.0"
 }
