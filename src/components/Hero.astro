@@ -6,6 +6,9 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
 <section class="hero" id="top">
   <div class="hero-inner">
     <div class="name">
+      <div class="met" hidden>
+        <p class="bubble"><span class="met-text"></span><small class="met-date"></small></p>
+      </div>
       <img class="icon" src={icon.src} alt="eyemono.moe のアイコン" />
       <h1>
         <ruby>eyemono<rt>アイモノ</rt></ruby>.<ruby>moe<rt>モエ</rt></ruby>
@@ -49,6 +52,42 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
   </a>
 </section>
 
+<script>
+  import {
+    STORAGE_KEY,
+    parseMetAt,
+    stripMetAtParams,
+    toDisplayDate,
+  } from "~/lib/metAt.js";
+
+  // 最初に会ったときの記録だけを残す（別の QR から開いても上書きしない）
+  const load = () => {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null");
+    } catch {
+      return null;
+    }
+  };
+  let record = load();
+  const fromUrl = parseMetAt(location.search);
+  if (fromUrl) {
+    if (!record) {
+      record = fromUrl;
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(record));
+      } catch {}
+    }
+    history.replaceState(history.state, "", stripMetAtParams(location.href));
+  }
+
+  const met = document.querySelector<HTMLElement>(".met");
+  if (met && typeof record?.name === "string" && typeof record?.date === "string") {
+    met.querySelector(".met-text")!.textContent = `${record.name}でお会いしましたね！`;
+    met.querySelector(".met-date")!.textContent = toDisplayDate(record.date);
+    met.hidden = false;
+  }
+</script>
+
 <style>
   .hero {
     position: relative;
@@ -72,6 +111,7 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
   }
   .name {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 16px;
   }
@@ -82,6 +122,60 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
     border: 3px solid #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     flex: none;
+  }
+  /* 「どこで会ったか」の吹き出し。揺れの支点は三角の先 */
+  .met {
+    --tip-x: 44px;
+    flex-basis: 100%;
+  }
+  .bubble {
+    position: relative;
+    display: inline-block;
+    padding: 6px 16px;
+    border: 2px solid #191e1e;
+    border-radius: 14px;
+    background: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+    transform-origin: var(--tip-x) calc(100% + 10px);
+    animation:
+      pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both,
+      sway 3.2s ease-in-out 0.9s infinite;
+  }
+  .bubble small {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: #526060;
+  }
+  .bubble::after {
+    content: "";
+    position: absolute;
+    left: var(--tip-x);
+    bottom: -9px;
+    width: 14px;
+    height: 14px;
+    border-right: 2px solid #191e1e;
+    border-bottom: 2px solid #191e1e;
+    background: #fff;
+    transform: translateX(-50%) rotate(45deg);
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+  }
+  @keyframes sway {
+    0%,
+    100% {
+      transform: rotate(-2deg);
+    }
+    50% {
+      transform: rotate(2deg) translateY(-3px);
+    }
   }
   .role {
     font-size: 20px;
@@ -210,6 +304,23 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
       flex-direction: column;
       gap: 8px;
       text-align: center;
+    }
+    .met {
+      --tip-x: 50%;
+      margin-bottom: 6px;
+    }
+    .bubble {
+      font-size: 13px;
+    }
+    .bubble small {
+      font-size: 11px;
+    }
+    /* 吹き出しのぶん縦に伸びるので、1画面に収まるよう上の余白とアイコンを小さくする */
+    .hero:has(.met:not([hidden])) {
+      padding-top: 20px;
+    }
+    .name:has(.met:not([hidden])) .icon {
+      width: min(24vw, 96px);
     }
     .icon {
       width: min(30vw, 120px);

@@ -106,13 +106,19 @@ test("hero has works button", () => {
 test("hero links", () => {
   const html = read("index.html");
   for (const href of [
-    "https://card.eyemono.moe",
+    "https://github.com/eyemono-moe",
     "https://x.com/eyemono_moe",
   ]) {
     const tags = anchorsTo(html, href);
     assert.ok(tags.length > 0, href);
     for (const tag of tags) assert.ok(tag.includes('target="_blank"'), tag);
   }
+  assert.equal(anchorsTo(html, "https://card.eyemono.moe").length, 0);
+});
+
+test("met-at bubble is hidden until the script fills it", () => {
+  const html = read("index.html");
+  assert.match(html, /<div[^>]*class="met"[^>]*hidden/);
 });
 
 test("body starts as hero and inline script switches to init", () => {

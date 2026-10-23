@@ -29,5 +29,4 @@ export const LINKS: { label: string; href: string }[] = [
   { label: "GitHub", href: "https://github.com/eyemono-moe" },
   { label: "X", href: "https://x.com/eyemono_moe" },
   { label: "Blog", href: "https://log.eyemono.moe" },
-  { label: "Card", href: "https://card.eyemono.moe" },
 ];
