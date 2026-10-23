@@ -153,7 +153,8 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
   .bubble::after {
     content: "";
     position: absolute;
-    left: var(--tip-x);
+    /* left は枠線の内側から測られるので、transform-origin（枠線の外側基準）と揃えるため枠線ぶん戻す */
+    left: calc(var(--tip-x) - 2px);
     bottom: -9px;
     width: 14px;
     height: 14px;
@@ -174,7 +175,7 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
       transform: rotate(-2deg);
     }
     50% {
-      transform: rotate(2deg) translateY(-3px);
+      transform: rotate(2deg);
     }
   }
   .role {
@@ -308,6 +309,9 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
     .met {
       --tip-x: 50%;
       margin-bottom: 6px;
+    }
+    .bubble::after {
+      left: 50%;
     }
     .bubble {
       font-size: 13px;
