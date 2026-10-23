@@ -163,19 +163,23 @@ import { CAREER, LINKS, SKILLS } from "~/consts";
     background: #fff;
     transform: translateX(-50%) rotate(45deg);
   }
+  /* pop は sway の始点の角度で終え、切り替わりで角度が飛ばないようにする */
   @keyframes pop {
     from {
       opacity: 0;
-      transform: scale(0.6);
+      transform: rotate(-1.5deg) scale(0.6);
+    }
+    to {
+      transform: rotate(-1.5deg);
     }
   }
   @keyframes sway {
     0%,
     100% {
-      transform: rotate(-2deg);
+      transform: rotate(-1.5deg);
     }
     50% {
-      transform: rotate(2deg);
+      transform: rotate(1.5deg);
     }
   }
   .role {
